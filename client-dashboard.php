@@ -55,6 +55,18 @@ add_filter('template_include', function($template) {
     return $template;
 });
 
+// Wymuszenie dedykowanego szablonu panelu dla strony o slug 'panel-administratora-weblu'
+add_filter('template_include', function($template) {
+    global $post;
+    if (is_page() && isset($post) && $post->post_name === 'panel-administratora-weblu') {
+        if (!is_user_logged_in() || !(current_user_can('klient') || current_user_can('administrator'))) {
+            wp_die('<div class="bg-red-600 text-white p-4 rounded">Brak dostępu do panelu klienta.</div>');
+        }
+        return plugin_dir_path(__FILE__).'templates/page-client-dashboard.php';
+    }
+    return $template;
+});
+
 // REST API/AJAX endpointy do obsługi sekcji (zamówienia, produkty, wpisy, kupony, raporty, kontakt, zgłoszenia)
 require_once plugin_dir_path(__FILE__).'inc/rest-endpoints.php';
 
