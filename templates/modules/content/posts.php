@@ -10,21 +10,25 @@ if (!defined('ABSPATH')) exit;
  * Funkcja renderująca sekcję posts z pełną funkcjonalnością
  */
 function render_posts_section() {
-    // Sprawdź czy użytkownik ma rolę "klient"
-    if (!current_user_can('klient') && !current_user_can('administrator')) {
+    // Proste sprawdzenie uprawnień (w rzeczywistym systemie użyj lepszej logiki)
+    $user_role = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : 'klient';
+    if ($user_role !== 'klient' && $user_role !== 'administrator') {
         return;
     }
 
     // Pobierz parametry z URL lub ustaw domyślne
     $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
     $posts_per_page = 10;
-    $search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
-    $status_filter = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
+    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+    $status_filter = isset($_GET['status']) ? trim($_GET['status']) : '';
     $category_filter = isset($_GET['category']) ? intval($_GET['category']) : '';
-    $orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'date';
-    $order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'DESC';
+    $orderby = isset($_GET['orderby']) ? trim($_GET['orderby']) : 'date';
+    $order = isset($_GET['order']) ? trim($_GET['order']) : 'DESC';
 
-    // Przygotuj argumenty dla WP_Query
+    // Pobierz ID użytkownika z sesji
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
+
+    // Przygotuj argumenty dla bezpośredniego zapytania SQL
     $args = array(
         'post_type' => 'post',
         'post_status' => array('publish', 'draft', 'pending', 'future'),
@@ -32,7 +36,7 @@ function render_posts_section() {
         'paged' => $current_page,
         'orderby' => $orderby,
         'order' => $order,
-        'author' => get_current_user_id() // Tylko wpisy bieżącego użytkownika
+        'author' => $user_id // Tylko wpisy bieżącego użytkownika
     );
 
     // Dodaj wyszukiwanie
@@ -50,13 +54,104 @@ function render_posts_section() {
         $args['cat'] = $category_filter;
     }
 
-    $posts_query = new WP_Query($args);
+    // Pobierz wpisy bezpośrednio z bazy danych dla lepszej kompatybilności
+    global $wpdb;
+    $prefix = $wpdb->prefix;
+    $posts_table = $prefix . 'posts';
+    $postmeta_table = $prefix . 'postmeta';
+    $term_relationships = $prefix . 'term_relationships';
+    $term_taxonomy = $prefix . 'term_taxonomy';
+    $terms = $prefix . 'terms';
+
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
+
+    // Buduj zapytanie SQL
+    $where_conditions = array();
+    $where_conditions[] = "p.post_author = %d";
+    $where_conditions[] = "p.post_type = 'post'";
+    $where_conditions[] = "p.post_status IN ('publish', 'draft', 'pending', 'future')";
+
+    $params = array($user_id);
+
+    // Dodaj wyszukiwanie
+    if (!empty($search)) {
+        $where_conditions[] = "(p.post_title LIKE %s OR p.post_content LIKE %s OR p.post_excerpt LIKE %s)";
+        $search_param = '%' . $wpdb->esc_like($search) . '%';
+        $params = array_merge($params, array($search_param, $search_param, $search_param));
+    }
+
+    // Dodaj filtr statusu
+    if (!empty($status_filter)) {
+        $where_conditions[] = "p.post_status = %s";
+        $params[] = $status_filter;
+    }
+
+    // Dodaj filtr kategorii
+    if (!empty($category_filter)) {
+        $where_conditions[] = "EXISTS (
+            SELECT 1 FROM $term_relationships tr
+            INNER JOIN $term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE tr.object_id = p.ID AND tt.term_id = %d AND tt.taxonomy = 'category'
+        )";
+        $params[] = $category_filter;
+    }
+
+    $where_clause = implode(' AND ', $where_conditions);
+
+    // Pobierz całkowitą liczbę wpisów
+    $total_query = $wpdb->prepare(
+        "SELECT COUNT(*) FROM $posts_table p WHERE $where_clause",
+        $params
+    );
+    $total_posts = $wpdb->get_var($total_query);
+
+    // Pobierz wpisy z paginacją
+    $offset = ($current_page - 1) * $posts_per_page;
+
+    // Dodaj sortowanie
+    $order_by = 'p.post_date DESC'; // domyślne
+    if ($orderby === 'title') {
+        $order_by = 'p.post_title ' . $order;
+    } elseif ($orderby === 'date') {
+        $order_by = 'p.post_date ' . $order;
+    } elseif ($orderby === 'modified') {
+        $order_by = 'p.post_modified ' . $order;
+    }
+
+    $posts_query_sql = $wpdb->prepare(
+        "SELECT p.ID, p.post_title, p.post_date, p.post_modified, p.post_status, p.post_author,
+                p.comment_count
+         FROM $posts_table p
+         WHERE $where_clause
+         ORDER BY $order_by
+         LIMIT %d OFFSET %d",
+        array_merge($params, array($posts_per_page, $offset))
+    );
+
+    $posts = $wpdb->get_results($posts_query_sql);
+
+    // Symuluj obiekt WP_Query dla kompatybilności z resztą kodu
+    $posts_query = new stdClass();
+    $posts_query->posts = $posts;
+    $posts_query->found_posts = $total_posts;
+    $posts_query->max_num_pages = ceil($total_posts / $posts_per_page);
 
     // Pobierz statystyki
     $stats = get_posts_stats();
 
-    // Pobierz kategorie dla filtra
-    $categories = get_categories(array('hide_empty' => false));
+    // Pobierz kategorie bezpośrednio z bazy danych
+    global $wpdb;
+    $prefix = $wpdb->prefix;
+    $terms_table = $prefix . 'terms';
+    $term_taxonomy_table = $prefix . 'term_taxonomy';
+
+    $categories = $wpdb->get_results(
+        "SELECT t.term_id, t.name, t.slug, tt.count
+         FROM $terms_table t
+         INNER JOIN $term_taxonomy_table tt ON t.term_id = tt.term_id
+         WHERE tt.taxonomy = 'category'
+         ORDER BY t.name ASC"
+    );
     ?>
     <section id="posts" class="animate-fadeIn">
         <div class="card hover-lift">
@@ -125,7 +220,7 @@ function render_posts_section() {
                 <!-- Przyciski akcji i filtry -->
                 <div class="mb-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <div class="flex gap-3">
-                        <a href="<?php echo admin_url('post-new.php'); ?>" class="btn bg-gradient-primary hover:shadow-glow">
+                        <a href="post-new.php" class="btn bg-gradient-primary hover:shadow-glow">
                             <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                             </svg>
@@ -145,7 +240,7 @@ function render_posts_section() {
                             <input type="text"
                                    id="posts-search"
                                    placeholder="Szukaj wpisów..."
-                                   value="<?php echo esc_attr($search); ?>"
+                                   value="<?php echo htmlspecialchars($search); ?>"
                                    class="w-full lg:w-64 px-4 py-2 pl-10 bg-gray-800 border border-gray-600 rounded-modern text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <svg class="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -154,17 +249,17 @@ function render_posts_section() {
 
                         <select id="status-filter" class="px-4 py-2 bg-gray-800 border border-gray-600 rounded-modern text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Wszystkie statusy</option>
-                            <option value="publish" <?php selected($status_filter, 'publish'); ?>>Opublikowane</option>
-                            <option value="draft" <?php selected($status_filter, 'draft'); ?>>Wersje robocze</option>
-                            <option value="pending" <?php selected($status_filter, 'pending'); ?>>Oczekujące</option>
-                            <option value="future" <?php selected($status_filter, 'future'); ?>>Zaplanowane</option>
+                            <option value="publish" <?php echo $status_filter === 'publish' ? 'selected' : ''; ?>>Opublikowane</option>
+                            <option value="draft" <?php echo $status_filter === 'draft' ? 'selected' : ''; ?>>Wersje robocze</option>
+                            <option value="pending" <?php echo $status_filter === 'pending' ? 'selected' : ''; ?>>Oczekujące</option>
+                            <option value="future" <?php echo $status_filter === 'future' ? 'selected' : ''; ?>>Zaplanowane</option>
                         </select>
 
                         <select id="category-filter" class="px-4 py-2 bg-gray-800 border border-gray-600 rounded-modern text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Wszystkie kategorie</option>
                             <?php foreach ($categories as $category): ?>
-                                <option value="<?php echo $category->term_id; ?>" <?php selected($category_filter, $category->term_id); ?>>
-                                    <?php echo esc_html($category->name); ?>
+                                <option value="<?php echo htmlspecialchars($category->term_id); ?>" <?php echo $category_filter == $category->term_id ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($category->name); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -194,33 +289,50 @@ function render_posts_section() {
                             </tr>
                         </thead>
                         <tbody id="posts-table-body">
-                            <?php if ($posts_query->have_posts()): ?>
-                                <?php while ($posts_query->have_posts()): $posts_query->the_post(); ?>
+                            <?php if (!empty($posts_query->posts)): ?>
+                                <?php foreach ($posts_query->posts as $post): ?>
                                     <?php
-                                    $post_id = get_the_ID();
-                                    $post_status = get_post_status();
-                                    $categories = get_the_category();
-                                    $comment_count = get_comments_number();
+                                    $post_id = $post->ID;
+                                    $post_status = $post->post_status;
+                                    $post_title = $post->post_title;
+                                    $post_date = $post->post_date;
+                                    $comment_count = $post->comment_count;
+
+                                    // Pobierz kategorie dla tego wpisu
+                                    $post_categories = $wpdb->get_results($wpdb->prepare(
+                                        "SELECT t.name FROM {$prefix}terms t
+                                         INNER JOIN {$prefix}term_relationships tr ON t.term_id = tr.term_taxonomy_id
+                                         WHERE tr.object_id = %d",
+                                        $post_id
+                                    ));
+
                                     $status_badge = get_status_badge($post_status);
                                     ?>
                                     <tr class="bg-gray-900 border-b border-gray-700 hover:bg-gray-800">
                                         <td class="px-4 py-4">
-                                            <input type="checkbox" name="post_ids[]" value="<?php echo $post_id; ?>" class="post-checkbox rounded border-gray-600 text-blue-600 focus:ring-blue-500">
+                                            <input type="checkbox" name="post_ids[]" value="<?php echo htmlspecialchars($post_id); ?>" class="post-checkbox rounded border-gray-600 text-blue-600 focus:ring-blue-500">
                                         </td>
                                         <td class="px-6 py-4">
-                                            <div class="font-medium text-gray-100 max-w-xs truncate" title="<?php the_title(); ?>">
-                                                <?php the_title(); ?>
+                                            <div class="font-medium text-gray-100 max-w-xs truncate" title="<?php echo htmlspecialchars($post_title); ?>">
+                                                <?php echo htmlspecialchars($post_title); ?>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4"><?php the_author(); ?></td>
+                                        <td class="px-6 py-4"><?php
+                                            global $wpdb;
+                                            $author_name = $wpdb->get_var($wpdb->prepare(
+                                                "SELECT display_name FROM {$wpdb->prefix}users WHERE ID = %d",
+                                                $post->post_author
+                                            ));
+                                            echo htmlspecialchars($author_name ?: 'Nieznany');
+                                        ?></td>
                                         <td class="px-6 py-4">
-                                            <?php if (!empty($categories)): ?>
+                                            <?php if (!empty($post_categories)): ?>
                                                 <div class="flex flex-wrap gap-1">
-                                                    <?php foreach (array_slice($categories, 0, 2) as $category): ?>
-                                                        <span class="badge badge-info text-xs"><?php echo esc_html($category->name); ?></span>
+                                                    <?php foreach (array_slice($post_categories, 0, 2) as $category): ?>
+                                                        <span class="badge badge-info text-xs"><?php echo htmlspecialchars($category->name); ?></span>
                                                     <?php endforeach; ?>
-                                                    <?php if (count($categories) > 2): ?>
-                                                        <span class="text-xs text-gray-400">+<?php echo count($categories) - 2; ?> więcej</span>
+                                                    <?php if (count($post_categories) > 2): ?>
+                                                        <span class="text-xs text-gray-400">+<?php echo count($post_categories) - 2; ?> więcej</span>
                                                     <?php endif; ?>
                                                 </div>
                                             <?php else: ?>
@@ -228,33 +340,33 @@ function render_posts_section() {
                                             <?php endif; ?>
                                         </td>
                                         <td class="px-6 py-4">
-                                            <span class="text-gray-100"><?php echo $comment_count; ?></span>
+                                            <span class="text-gray-100"><?php echo htmlspecialchars($comment_count); ?></span>
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-400">
-                                            <?php echo get_the_date('Y-m-d'); ?>
+                                            <?php echo htmlspecialchars(date('Y-m-d', strtotime($post_date))); ?>
                                         </td>
                                         <td class="px-6 py-4">
                                             <?php echo $status_badge; ?>
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex gap-2">
-                                                <a href="<?php echo get_edit_post_link($post_id); ?>" class="text-blue-400 hover:text-blue-300" title="Edytuj">
+                                                <a href="<?php echo htmlspecialchars('post.php?post=' . $post_id . '&action=edit'); ?>" class="text-blue-400 hover:text-blue-300" title="Edytuj">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                                     </svg>
                                                 </a>
-                                                <a href="<?php the_permalink(); ?>" target="_blank" class="text-green-400 hover:text-green-300" title="Podgląd">
+                                                <a href="<?php echo htmlspecialchars('?p=' . $post_id); ?>" target="_blank" class="text-green-400 hover:text-green-300" title="Podgląd">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                                     </svg>
                                                 </a>
-                                                <button class="text-purple-400 hover:text-purple-300 duplicate-post" data-post-id="<?php echo $post_id; ?>" title="Duplikuj">
+                                                <button class="text-purple-400 hover:text-purple-300 duplicate-post" data-post-id="<?php echo htmlspecialchars($post_id); ?>" title="Duplikuj">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                                                     </svg>
                                                 </button>
-                                                <button class="text-red-400 hover:text-red-300 delete-post" data-post-id="<?php echo $post_id; ?>" title="Usuń">
+                                                <button class="text-red-400 hover:text-red-300 delete-post" data-post-id="<?php echo htmlspecialchars($post_id); ?>" title="Usuń">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                     </svg>
@@ -262,7 +374,7 @@ function render_posts_section() {
                                             </div>
                                         </td>
                                     </tr>
-                                <?php endwhile; ?>
+                                <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
                                     <td colspan="8" class="px-6 py-12 text-center text-gray-400">
@@ -280,26 +392,42 @@ function render_posts_section() {
 
                 <!-- Widok mobilny (kafelki) -->
                 <div class="lg:hidden space-y-4" id="posts-mobile-view">
-                    <?php if ($posts_query->have_posts()): ?>
-                        <?php while ($posts_query->have_posts()): $posts_query->the_post(); ?>
+                    <?php if (!empty($posts_query->posts)): ?>
+                        <?php foreach ($posts_query->posts as $post): ?>
                             <?php
-                            $post_id = get_the_ID();
-                            $post_status = get_post_status();
-                            $categories = get_the_category();
-                            $comment_count = get_comments_number();
+                            $post_id = $post->ID;
+                            $post_status = $post->post_status;
+                            $post_title = $post->post_title;
+                            $post_date = $post->post_date;
+                            $comment_count = $post->comment_count;
+
+                            // Pobierz kategorie dla tego wpisu
+                            $post_categories = $wpdb->get_results($wpdb->prepare(
+                                "SELECT t.name FROM {$prefix}terms t
+                                 INNER JOIN {$prefix}term_relationships tr ON t.term_id = tr.term_taxonomy_id
+                                 WHERE tr.object_id = %d",
+                                $post_id
+                            ));
+
+                            // Pobierz autora
+                            $author_name = $wpdb->get_var($wpdb->prepare(
+                                "SELECT display_name FROM {$prefix}users WHERE ID = %d",
+                                $post->post_author
+                            ));
+
                             $status_badge = get_status_badge($post_status);
                             ?>
                             <div class="bg-gray-800 rounded-modern p-4 border border-gray-700">
                                 <div class="flex items-start justify-between mb-3">
                                     <div class="flex-1 min-w-0">
-                                        <h3 class="font-medium text-gray-100 truncate" title="<?php the_title(); ?>">
-                                            <?php the_title(); ?>
+                                        <h3 class="font-medium text-gray-100 truncate" title="<?php echo htmlspecialchars($post_title); ?>">
+                                            <?php echo htmlspecialchars($post_title); ?>
                                         </h3>
                                         <p class="text-sm text-gray-400 mt-1">
-                                            <?php the_author(); ?> • <?php echo get_the_date('Y-m-d'); ?>
+                                            <?php echo htmlspecialchars($author_name); ?> • <?php echo htmlspecialchars(date('Y-m-d', strtotime($post_date))); ?>
                                         </p>
                                     </div>
-                                    <input type="checkbox" name="post_ids[]" value="<?php echo $post_id; ?>" class="post-checkbox rounded border-gray-600 text-blue-600 focus:ring-blue-500">
+                                    <input type="checkbox" name="post_ids[]" value="<?php echo htmlspecialchars($post_id); ?>" class="post-checkbox rounded border-gray-600 text-blue-600 focus:ring-blue-500">
                                 </div>
 
                                 <div class="flex items-center justify-between mb-3">
@@ -309,44 +437,44 @@ function render_posts_section() {
                                             <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                             </svg>
-                                            <?php echo $comment_count; ?>
+                                            <?php echo htmlspecialchars($comment_count); ?>
                                         </span>
                                     </div>
                                 </div>
 
-                                <?php if (!empty($categories)): ?>
+                                <?php if (!empty($post_categories)): ?>
                                     <div class="flex flex-wrap gap-1 mb-3">
-                                        <?php foreach (array_slice($categories, 0, 3) as $category): ?>
-                                            <span class="badge badge-info text-xs"><?php echo esc_html($category->name); ?></span>
+                                        <?php foreach (array_slice($post_categories, 0, 3) as $category): ?>
+                                            <span class="badge badge-info text-xs"><?php echo htmlspecialchars($category->name); ?></span>
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endif; ?>
 
                                 <div class="flex gap-2">
-                                    <a href="<?php echo get_edit_post_link($post_id); ?>" class="btn btn-sm bg-blue-600 hover:bg-blue-700">
+                                    <a href="<?php echo htmlspecialchars('post.php?post=' . $post_id . '&action=edit'); ?>" class="btn btn-sm bg-blue-600 hover:bg-blue-700">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                         </svg>
                                     </a>
-                                    <a href="<?php the_permalink(); ?>" target="_blank" class="btn btn-sm bg-green-600 hover:bg-green-700">
+                                    <a href="<?php echo htmlspecialchars('?p=' . $post_id); ?>" target="_blank" class="btn btn-sm bg-green-600 hover:bg-green-700">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                         </svg>
                                     </a>
-                                    <button class="btn btn-sm bg-purple-600 hover:bg-purple-700 duplicate-post" data-post-id="<?php echo $post_id; ?>">
+                                    <button class="btn btn-sm bg-purple-600 hover:bg-purple-700 duplicate-post" data-post-id="<?php echo htmlspecialchars($post_id); ?>">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                                         </svg>
                                     </button>
-                                    <button class="btn btn-sm bg-red-600 hover:bg-red-700 delete-post" data-post-id="<?php echo $post_id; ?>">
+                                    <button class="btn btn-sm bg-red-600 hover:bg-red-700 delete-post" data-post-id="<?php echo htmlspecialchars($post_id); ?>">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
                                     </button>
                                 </div>
                             </div>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     <?php else: ?>
                         <div class="text-center py-12 text-gray-400">
                             <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -369,7 +497,7 @@ function render_posts_section() {
 
                         <div class="flex gap-2">
                             <?php if ($current_page > 1): ?>
-                                <a href="<?php echo add_query_arg('paged', $current_page - 1); ?>" class="btn bg-gray-700 hover:bg-gray-600">
+                                <a href="?paged=<?php echo $current_page - 1; ?>" class="btn bg-gray-700 hover:bg-gray-600">
                                     Poprzednia
                                 </a>
                             <?php else: ?>
@@ -381,7 +509,7 @@ function render_posts_section() {
                             $end_page = min($posts_query->max_num_pages, $current_page + 2);
 
                             if ($start_page > 1): ?>
-                                <a href="<?php echo add_query_arg('paged', 1); ?>" class="btn bg-gray-700 hover:bg-gray-600">1</a>
+                                <a href="?paged=1" class="btn bg-gray-700 hover:bg-gray-600">1</a>
                                 <?php if ($start_page > 2): ?>
                                     <span class="px-2 py-2 text-gray-400">...</span>
                                 <?php endif; ?>
@@ -391,7 +519,7 @@ function render_posts_section() {
                                 <?php if ($i == $current_page): ?>
                                     <span class="btn bg-gradient-primary text-white"><?php echo $i; ?></span>
                                 <?php else: ?>
-                                    <a href="<?php echo add_query_arg('paged', $i); ?>" class="btn bg-gray-700 hover:bg-gray-600">
+                                    <a href="?paged=<?php echo $i; ?>" class="btn bg-gray-700 hover:bg-gray-600">
                                         <?php echo $i; ?>
                                     </a>
                                 <?php endif; ?>
@@ -401,13 +529,13 @@ function render_posts_section() {
                                 <?php if ($end_page < $posts_query->max_num_pages - 1): ?>
                                     <span class="px-2 py-2 text-gray-400">...</span>
                                 <?php endif; ?>
-                                <a href="<?php echo add_query_arg('paged', $posts_query->max_num_pages); ?>" class="btn bg-gray-700 hover:bg-gray-600">
+                                <a href="?paged=<?php echo $posts_query->max_num_pages; ?>" class="btn bg-gray-700 hover:bg-gray-600">
                                     <?php echo $posts_query->max_num_pages; ?>
                                 </a>
                             <?php endif; ?>
 
                             <?php if ($current_page < $posts_query->max_num_pages): ?>
-                                <a href="<?php echo add_query_arg('paged', $current_page + 1); ?>" class="btn bg-gray-700 hover:bg-gray-600">
+                                <a href="?paged=<?php echo $current_page + 1; ?>" class="btn bg-gray-700 hover:bg-gray-600">
                                     Następna
                                 </a>
                             <?php else: ?>
@@ -417,7 +545,6 @@ function render_posts_section() {
                     </div>
                 <?php endif; ?>
 
-                <?php wp_reset_postdata(); ?>
             </div>
         </div>
     </section>
@@ -585,12 +712,12 @@ function render_posts_section() {
 
         function bulkAction(action, postIds) {
             const formData = new FormData();
-            formData.append('action', 'bulk_posts_action');
+            formData.append('action', 'bulk_posts');
             formData.append('bulk_action', action);
             formData.append('post_ids', JSON.stringify(postIds));
-            formData.append('nonce', '<?php echo wp_create_nonce("bulk_posts_nonce"); ?>');
+            formData.append('token', 'bulk_posts_token_123');
 
-            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+            fetch('<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', {
                 method: 'POST',
                 body: formData
             })
@@ -627,12 +754,12 @@ function render_posts_section() {
 
         function quickAction(action, postId) {
             const formData = new FormData();
-            formData.append('action', 'quick_post_action');
+            formData.append('action', 'quick_post');
             formData.append('quick_action', action);
             formData.append('post_id', postId);
-            formData.append('nonce', '<?php echo wp_create_nonce("quick_post_nonce"); ?>');
+            formData.append('token', 'quick_post_token_123');
 
-            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+            fetch('<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', {
                 method: 'POST',
                 body: formData
             })
@@ -658,14 +785,57 @@ function render_posts_section() {
  * Funkcja pomocnicza do pobierania statystyk wpisów
  */
 function get_posts_stats() {
-    $user_id = get_current_user_id();
+    global $wpdb;
 
-    return array(
-        'total' => count_user_posts($user_id, 'post'),
-        'publish' => count_user_posts($user_id, 'post', false, 'publish'),
-        'draft' => count_user_posts($user_id, 'post', false, 'draft'),
-        'pending' => count_user_posts($user_id, 'post', false, 'pending')
+    // Pobierz prefix tabeli z konfiguracji WordPress
+    $prefix = $wpdb->prefix; // To automatycznie użyje właściwego prefixu (wp_724689f)
+
+    // W samodzielnym systemie zastąp get_current_user_id() własną logiką
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1; // Domyślnie użytkownik 1
+
+    // Bezpośrednie zapytania SQL dla lepszej kompatybilności
+    $stats = array(
+        'total' => 0,
+        'publish' => 0,
+        'draft' => 0,
+        'pending' => 0
     );
+
+    try {
+        // Sprawdź czy tabela istnieje i pobierz dane
+        $posts_table = $prefix . 'posts';
+
+        if ($wpdb->get_var("SHOW TABLES LIKE '$posts_table'") == $posts_table) {
+            // Wszystkie wpisy użytkownika
+            $stats['total'] = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $posts_table WHERE post_author = %d AND post_type = 'post' AND post_status IN ('publish', 'draft', 'pending', 'future')",
+                $user_id
+            ));
+
+            // Opublikowane
+            $stats['publish'] = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $posts_table WHERE post_author = %d AND post_type = 'post' AND post_status = 'publish'",
+                $user_id
+            ));
+
+            // Wersje robocze
+            $stats['draft'] = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $posts_table WHERE post_author = %d AND post_type = 'post' AND post_status = 'draft'",
+                $user_id
+            ));
+
+            // Oczekujące
+            $stats['pending'] = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $posts_table WHERE post_author = %d AND post_type = 'post' AND post_status = 'pending'",
+                $user_id
+            ));
+        }
+    } catch (Exception $e) {
+        // W przypadku błędu, zwróć zera
+        error_log('Błąd podczas pobierania statystyk wpisów: ' . $e->getMessage());
+    }
+
+    return $stats;
 }
 
 /**
@@ -685,50 +855,58 @@ function get_status_badge($status) {
 }
 
 /**
- * AJAX handler dla akcji masowych
+ * AJAX handler dla akcji masowych - wersja dla samodzielnego systemu
  */
 function handle_bulk_posts_action() {
-    // Sprawdź nonce dla bezpieczeństwa
-    if (!wp_verify_nonce($_POST['nonce'], 'bulk_posts_nonce')) {
-        wp_die('Bezpieczeństwo: nieprawidłowy nonce');
+    global $wpdb;
+    $prefix = $wpdb->prefix;
+
+    // Proste sprawdzenie tokena bezpieczeństwa
+    if (!isset($_POST['token']) || $_POST['token'] !== 'bulk_posts_token_123') {
+        die(json_encode(['success' => false, 'message' => 'Nieprawidłowy token bezpieczeństwa']));
     }
 
-    // Sprawdź uprawnienia
-    if (!current_user_can('klient') && !current_user_can('administrator')) {
-        wp_die('Brak uprawnień');
-    }
+    // Pobierz ID użytkownika z sesji
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
 
-    $action = sanitize_text_field($_POST['bulk_action']);
-    $post_ids = json_decode(stripslashes($_POST['post_ids']), true);
+    $action = isset($_POST['bulk_action']) ? trim($_POST['bulk_action']) : '';
+    $post_ids = isset($_POST['post_ids']) ? json_decode($_POST['post_ids'], true) : [];
 
-    if (empty($post_ids)) {
-        wp_send_json_error('Brak zaznaczonych wpisów');
+    if (empty($post_ids) || !is_array($post_ids)) {
+        die(json_encode(['success' => false, 'message' => 'Brak zaznaczonych wpisów']));
     }
 
     $updated = 0;
+    $posts_table = $prefix . 'posts';
 
     foreach ($post_ids as $post_id) {
+        $post_id = intval($post_id);
+
         // Sprawdź czy użytkownik jest właścicielem wpisu
-        $post = get_post($post_id);
-        if (!$post || $post->post_author != get_current_user_id()) {
+        $post_author = $wpdb->get_var($wpdb->prepare(
+            "SELECT post_author FROM $posts_table WHERE ID = %d",
+            $post_id
+        ));
+
+        if (!$post_author || $post_author != $user_id) {
             continue;
         }
 
         switch ($action) {
             case 'delete':
-                if (wp_delete_post($post_id, true)) {
+                if ($wpdb->delete($posts_table, ['ID' => $post_id], ['%d'])) {
                     $updated++;
                 }
                 break;
 
             case 'draft':
-                if (wp_update_post(array('ID' => $post_id, 'post_status' => 'draft'))) {
+                if ($wpdb->update($posts_table, ['post_status' => 'draft'], ['ID' => $post_id], ['%s'], ['%d'])) {
                     $updated++;
                 }
                 break;
 
             case 'publish':
-                if (wp_update_post(array('ID' => $post_id, 'post_status' => 'publish'))) {
+                if ($wpdb->update($posts_table, ['post_status' => 'publish'], ['ID' => $post_id], ['%s'], ['%d'])) {
                     $updated++;
                 }
                 break;
@@ -736,74 +914,101 @@ function handle_bulk_posts_action() {
     }
 
     if ($updated > 0) {
-        wp_send_json_success("Zaktualizowano $updated wpisów");
+        die(json_encode(['success' => true, 'message' => "Zaktualizowano $updated wpisów"]));
     } else {
-        wp_send_json_error('Nie udało się zaktualizować żadnego wpisu');
+        die(json_encode(['success' => false, 'message' => 'Nie udało się zaktualizować żadnego wpisu']));
     }
 }
-add_action('wp_ajax_bulk_posts_action', 'handle_bulk_posts_action');
 
 /**
- * AJAX handler dla szybkich akcji
+ * AJAX handler dla szybkich akcji - wersja dla samodzielnego systemu
  */
 function handle_quick_post_action() {
-    // Sprawdź nonce dla bezpieczeństwa
-    if (!wp_verify_nonce($_POST['nonce'], 'quick_post_nonce')) {
-        wp_die('Bezpieczeństwo: nieprawidłowy nonce');
+    global $wpdb;
+    $prefix = $wpdb->prefix;
+
+    // Proste sprawdzenie tokena bezpieczeństwa
+    if (!isset($_POST['token']) || $_POST['token'] !== 'quick_post_token_123') {
+        die(json_encode(['success' => false, 'message' => 'Nieprawidłowy token bezpieczeństwa']));
     }
 
-    // Sprawdź uprawnienia
-    if (!current_user_can('klient') && !current_user_can('administrator')) {
-        wp_die('Brak uprawnień');
+    // Pobierz ID użytkownika z sesji
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
+
+    $action = isset($_POST['quick_action']) ? trim($_POST['quick_action']) : '';
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+
+    if (!$post_id) {
+        die(json_encode(['success' => false, 'message' => 'Nieprawidłowy ID wpisu']));
     }
 
-    $action = sanitize_text_field($_POST['quick_action']);
-    $post_id = intval($_POST['post_id']);
+    $posts_table = $prefix . 'posts';
 
     // Sprawdź czy użytkownik jest właścicielem wpisu
-    $post = get_post($post_id);
-    if (!$post || $post->post_author != get_current_user_id()) {
-        wp_send_json_error('Brak dostępu do tego wpisu');
+    $post = $wpdb->get_row($wpdb->prepare(
+        "SELECT * FROM $posts_table WHERE ID = %d",
+        $post_id
+    ));
+
+    if (!$post || $post->post_author != $user_id) {
+        die(json_encode(['success' => false, 'message' => 'Brak dostępu do tego wpisu']));
     }
 
     switch ($action) {
         case 'delete':
-            if (wp_delete_post($post_id, true)) {
-                wp_send_json_success('Wpis został usunięty');
+            if ($wpdb->delete($posts_table, ['ID' => $post_id], ['%d'])) {
+                die(json_encode(['success' => true, 'message' => 'Wpis został usunięty']));
             } else {
-                wp_send_json_error('Nie udało się usunąć wpisu');
+                die(json_encode(['success' => false, 'message' => 'Nie udało się usunąć wpisu']));
             }
-            break;
 
         case 'duplicate':
-            $new_post = array(
+            $new_post_data = [
                 'post_title' => $post->post_title . ' (kopia)',
                 'post_content' => $post->post_content,
                 'post_excerpt' => $post->post_excerpt,
                 'post_status' => 'draft',
                 'post_type' => $post->post_type,
                 'post_author' => $post->post_author,
-                'post_category' => wp_get_post_categories($post_id)
-            );
+                'post_date' => date('Y-m-d H:i:s'),
+                'post_date_gmt' => gmdate('Y-m-d H:i:s'),
+                'post_modified' => date('Y-m-d H:i:s'),
+                'post_modified_gmt' => gmdate('Y-m-d H:i:s')
+            ];
 
-            $new_post_id = wp_insert_post($new_post);
+            if ($wpdb->insert($posts_table, $new_post_data)) {
+                $new_post_id = $wpdb->insert_id;
 
-            if ($new_post_id) {
-                // Skopiuj tagi
-                $tags = wp_get_post_tags($post_id);
-                if (!empty($tags)) {
-                    wp_set_post_tags($new_post_id, wp_list_pluck($tags, 'name'));
+                // Skopiuj kategorie
+                $term_relationships_table = $prefix . 'term_relationships';
+                $categories = $wpdb->get_results($wpdb->prepare(
+                    "SELECT term_taxonomy_id FROM $term_relationships_table WHERE object_id = %d",
+                    $post_id
+                ));
+
+                foreach ($categories as $category) {
+                    $wpdb->insert($term_relationships_table, [
+                        'object_id' => $new_post_id,
+                        'term_taxonomy_id' => $category->term_taxonomy_id
+                    ]);
                 }
 
-                wp_send_json_success('Wpis został zduplikowany');
+                die(json_encode(['success' => true, 'message' => 'Wpis został zduplikowany']));
             } else {
-                wp_send_json_error('Nie udało się zduplikować wpisu');
+                die(json_encode(['success' => false, 'message' => 'Nie udało się zduplikować wpisu']));
             }
-            break;
 
         default:
-            wp_send_json_error('Nieprawidłowa akcja');
+            die(json_encode(['success' => false, 'message' => 'Nieprawidłowa akcja']));
     }
 }
-add_action('wp_ajax_quick_post_action', 'handle_quick_post_action');
+
+// Obsługa AJAX dla samodzielnego systemu
+if (isset($_POST['action'])) {
+    if ($_POST['action'] === 'bulk_posts') {
+        handle_bulk_posts_action();
+    } elseif ($_POST['action'] === 'quick_post') {
+        handle_quick_post_action();
+    }
+}
 ?>
