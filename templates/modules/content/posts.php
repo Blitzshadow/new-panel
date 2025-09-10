@@ -5,6 +5,11 @@
  */
 
 if (!defined('ABSPATH')) exit;
+
+/**
+ * Render posts section - only when called
+ */
+function render_posts_section() {
 ?>
 
 <section id="posts" class="animate-fadeIn">
@@ -428,3 +433,8 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Posts table UI initialized - ready for data loading logic');
 });
 </script>
+    </div>
+</section>
+<?php
+}
+?>

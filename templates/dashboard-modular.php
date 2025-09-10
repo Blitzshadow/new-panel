@@ -4,21 +4,9 @@
  * Ładuje wszystkie moduły i zarządza strukturą dashboard
  */
 
-// DEBUG: sprawdź czy plik się wykonuje
-echo '<div style="background:#ff6b6b;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
-echo 'DEBUG: dashboard-modular.php loaded successfully!';
-echo '</div>';
-
 // Ładowanie modułów - włączanie modułu content i personalization
 if (file_exists(__DIR__ . '/modules/content.php')) {
     require_once __DIR__ . '/modules/content.php';
-    echo '<div style="background:#2ed573;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
-    echo 'DEBUG: content.php module loaded successfully!';
-    echo '</div>';
-} else {
-    echo '<div style="background:#ff3838;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
-    echo 'ERROR: content.php module not found at: ' . __DIR__ . '/modules/content.php';
-    echo '</div>';
 }
 if (file_exists(__DIR__ . '/modules/personalization.php')) {
     require_once __DIR__ . '/modules/personalization.php';
@@ -317,21 +305,9 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
-        // DEBUG: Check if render_posts_section function exists
-        echo '<div style="background:#ffa502;color:#000;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
-        echo 'DEBUG: Checking render_posts_section function: ' . (function_exists('render_posts_section') ? 'EXISTS' : 'DOES NOT EXIST');
-        echo '</div>';
-
-        // Renderuj sekcje - włączanie modułu content
+        // Render posts section
         if (function_exists('render_posts_section')) {
-            echo '<div style="background:#2ed573;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
-            echo 'DEBUG: Calling render_posts_section()...';
-            echo '</div>';
             render_posts_section();
-        } else {
-            echo '<div style="background:#ff3838;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
-            echo 'ERROR: render_posts_section function not found!';
-            echo '</div>';
         }
 
         // Renderuj sekcje personalizacji - włączanie
