@@ -581,41 +581,54 @@ function render_posts_section() {
                                         </td>
                                     </tr>
                                 <?php endif; ?>
-                                <?php 
+                                <?php
                                 // DEBUG: Show that we're entering the posts loop
                                 echo '<tr><td colspan="8" class="px-6 py-4 bg-green-900 text-white">';
                                 echo '<strong>ENTERING POSTS LOOP:</strong> Found ' . count($posts_query->posts) . ' posts to display';
                                 echo '</td></tr>';
-                                
+
                                 $loop_counter = 0;
                                 ?>
                                 <?php foreach ($posts_query->posts as $post): ?>
-                                    <?php 
-                                    $loop_counter++;
-                                    // DEBUG: Show each post being processed
-                                    echo '<tr><td colspan="8" class="px-6 py-4 bg-purple-900 text-white">';
-                                    echo '<strong>PROCESSING POST #' . $loop_counter . ':</strong> ID=' . intval($post->ID) . ', Title=' . htmlspecialchars($post->post_title);
-                                    echo '</td></tr>';
-                                    ?>
                                     <?php
-                                    $post_id = $post->ID;
-                                    $post_status = $post->post_status;
-                                    $post_title = $post->post_title;
-                                    $post_date = $post->post_date;
-                                    $comment_count = $post->comment_count;
+                                    $loop_counter++;
+                                    // DEBUG: Show each post being processed (only show first 3 for clarity)
+                                    if ($loop_counter <= 3) {
+                                        echo '<tr><td colspan="8" class="px-6 py-4 bg-blue-900 text-white">';
+                                        echo '<strong>PROCESSING POST #' . $loop_counter . ':</strong> ID=' . (isset($post->ID) ? intval($post->ID) : 'NOT SET') . ', Title=' . (isset($post->post_title) ? htmlspecialchars(substr($post->post_title, 0, 50)) : 'NOT SET');
+                                        echo '</td></tr>';
+                                    }
+                                    ?>
+
+                                    <?php
+                                    // Make sure we have valid post data
+                                    if (!is_object($post) || !isset($post->ID)) {
+                                        echo '<tr><td colspan="8" class="px-6 py-4 bg-red-900 text-white">';
+                                        echo 'ERROR: Invalid post object at position ' . $loop_counter;
+                                        echo '</td></tr>';
+                                        continue;
+                                    }
+
+                                    $post_id = intval($post->ID);
+                                    $post_status = isset($post->post_status) ? $post->post_status : 'unknown';
+                                    $post_title = isset($post->post_title) ? $post->post_title : '(brak tytułu)';
+                                    $post_date = isset($post->post_date) ? $post->post_date : date('Y-m-d H:i:s');
+                                    $comment_count = isset($post->comment_count) ? intval($post->comment_count) : 0;
 
                                     // Pobierz kategorie dla tego wpisu
-                                        $post_categories = $wpdb->get_results($wpdb->prepare(
-                                            "SELECT t.name
-                                             FROM {$prefix}term_relationships tr
-                                             INNER JOIN {$prefix}term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-                                             INNER JOIN {$prefix}terms t ON tt.term_id = t.term_id
-                                             WHERE tr.object_id = %d",
-                                            $post_id
-                                        ));
+                                    $post_categories = $wpdb->get_results($wpdb->prepare(
+                                        "SELECT t.name
+                                         FROM {$prefix}term_relationships tr
+                                         INNER JOIN {$prefix}term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                                         INNER JOIN {$prefix}terms t ON tt.term_id = t.term_id
+                                         WHERE tr.object_id = %d",
+                                        $post_id
+                                    ));
 
                                     $status_badge = get_status_badge($post_status);
                                     ?>
+
+                                    <!-- ACTUAL POST ROW -->
                                     <tr class="bg-gray-900 border-b border-gray-700 hover:bg-gray-800">
                                         <td class="px-4 py-4">
                                             <input type="checkbox" name="post_ids[]" value="<?php echo htmlspecialchars($post_id); ?>" class="post-checkbox rounded border-gray-600 text-blue-600 focus:ring-blue-500">
@@ -683,6 +696,13 @@ function render_posts_section() {
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
+
+                                <?php
+                                // DEBUG: Show loop completion
+                                echo '<tr><td colspan="8" class="px-6 py-4 bg-green-900 text-white">';
+                                echo '<strong>LOOP COMPLETED:</strong> Processed ' . $loop_counter . ' posts successfully';
+                                echo '</td></tr>';
+                                ?>
                             <?php else: ?>
                                 <tr>
                                     <td colspan="8" class="px-6 py-12 text-center text-gray-400">
