@@ -279,6 +279,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                             <h2 class="text-3xl font-display font-bold mb-3 text-gradient">Witaj w panelu klienta!</h2>
                             <p class="text-gray-300 text-lg leading-relaxed">Panel uruchomiony poza WordPressem – brak personalizacji.</p>
                         <?php endif; ?>
+                        <?php endif; ?>
                         <div class="mt-6 flex gap-4">
                             <button class="btn bg-gradient-primary hover:shadow-glow transform hover:scale-105 transition-all duration-300">
                                 <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
