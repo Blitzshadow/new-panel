@@ -10,15 +10,21 @@ if (!defined('ABSPATH')) exit;
  * Funkcja renderująca sekcję posts z pełną funkcjonalnością
  */
 function render_posts_section() {
-    // Prefer WP auth: require user capability 'klient' or 'administrator'
-    if (!function_exists('current_user_can') || (!current_user_can('klient') && !current_user_can('administrator'))) {
-        // If session-based fallback is present, try to use it, otherwise deny
-        if (session_status() == PHP_SESSION_NONE) {
-            // don't start a session here to avoid headers issues
-        }
-        // Try session fallback
+    // Prefer WP auth: allow any logged-in WP user. If WP functions aren't available, try session fallback.
+    $allowed = false;
+    if (function_exists('is_user_logged_in') && is_user_logged_in()) {
+        $allowed = true;
+    } else {
+        // session fallback (do not start session here to avoid headers issues)
         $ses_user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
-        if (!$ses_user_id) return;
+        if ($ses_user_id) {
+            $allowed = true;
+        }
+    }
+
+    if (!$allowed) {
+        echo '<div class="p-4 bg-yellow-900 text-yellow-100 rounded">Dostęp do listy wpisów wymaga zalogowania się. Zaloguj się, aby zobaczyć wpisy.</div>';
+        return;
     }
 
     // Pobierz parametry z URL lub ustaw domyślne
