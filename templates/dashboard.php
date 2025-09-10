@@ -1,6 +1,6 @@
-<div id="client-dashboard" class="min-h-screen flex font-display" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
+<div id="client-dashboard" class="min-h-screen font-display" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
     <!-- Panel boczny -->
-    <aside class="sidebar w-72 min-h-screen shadow-modern-lg">
+    <aside class="sidebar min-h-screen shadow-modern-lg">
         <nav class="sidebar-menu">
             <div class="sidebar-header">
                 <h2 class="text-gradient font-display">Panel Klienta</h2>
@@ -243,7 +243,7 @@
         </nav>
     </aside>
     <!-- Główna sekcja -->
-    <main class="flex-1 p-4 space-y-4 overflow-auto max-w-7xl mx-auto" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
+    <main class="dashboard-content space-y-4 overflow-auto">
         <!-- Sekcje powitalne -->
         <section id="welcome" class="animate-fadeIn">
             <!-- Widżet powitalny -->
