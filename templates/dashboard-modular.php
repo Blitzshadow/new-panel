@@ -7,11 +7,11 @@
 // Debug: sprawdź czy plik się wykonuje
 // echo "<!-- DEBUG: dashboard-modular.php loaded successfully -->";
 
-// Ładowanie modułów - stopniowe włączanie dla debugowania
+// Ładowanie modułów - TYMCZASOWO WYŁĄCZONE (problemy z synchronizacją na serwerze)
+/*
 if (file_exists(__DIR__ . '/modules/content.php')) {
     require_once __DIR__ . '/modules/content.php';
 }
-/*
 if (file_exists(__DIR__ . '/modules/personalization.php')) {
     require_once __DIR__ . '/modules/personalization.php';
 }
@@ -306,13 +306,14 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
+        // Renderuj sekcje - TYMCZASOWO WYŁĄCZONE (problemy z synchronizacją)
+        /*
         // Renderuj sekcje - włączanie modułu content
         if (function_exists('render_posts_section')) {
             render_posts_section();
         }
 
         // Renderuj sekcje personalizacji - nadal wyłączone
-        /*
         if (function_exists('render_personalization_section')) {
             render_personalization_section();
         }
