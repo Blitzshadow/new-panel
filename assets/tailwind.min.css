@@ -778,9 +778,10 @@ body, html {
 
 /* Container dla głównej zawartości */
 .dashboard-content {
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 0 1rem !important;
+    flex: 1 !important;
+    margin-left: 288px !important;
+    padding: 2rem !important;
+    min-height: 100vh !important;
 }
 
 /* Scrollbar dla sidebar */

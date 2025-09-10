@@ -13,7 +13,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
 }
 ?>
 
-<div id="client-dashboard" class="min-h-screen font-display" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
+<div id="client-dashboard" class="min-h-screen font-display flex" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
     <!-- Panel boczny -->
     <aside class="sidebar min-h-screen shadow-modern-lg">
         <nav class="sidebar-menu">
@@ -49,7 +49,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                         Wpisy <span class="ml-auto text-xs opacity-60">▼</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-posts">
-                        <li><a href="#posts-list" class="sidebar-link">Lista wpisów</a></li>
+                        <li><a href="#posts" class="sidebar-link">Lista wpisów</a></li>
                         <li><a href="#add-post" class="sidebar-link">Dodaj wpis</a></li>
                         <li><a href="#edit-post" class="sidebar-link">Edycja / publikacja / draft</a></li>
                         <li><a href="#categories" class="sidebar-link">Kategorie i tagi</a></li>
