@@ -8,59 +8,52 @@ Author: Twoja Firma
 
 if (!defined('ABSPATH')) exit;
 
-// 1. Ładowanie zasobów (CSS/JS)
-add_action('admin_enqueue_scripts', function() {
-    if (is_user_logged_in() && current_user_can('klient')) {
-        wp_enqueue_style('client-dashboard-tailwind', plugin_dir_url(__FILE__).'assets/tailwind.min.css');
-        wp_enqueue_script('client-dashboard-alpine', plugin_dir_url(__FILE__).'assets/alpine.min.js', [], false, true);
-        wp_enqueue_script('client-dashboard-main', plugin_dir_url(__FILE__).'assets/dashboard.js', ['jquery'], false, true);
-    }
-});
-
-// 2. Dodanie menu panelu
-add_action('admin_menu', function() {
-    if (current_user_can('klient')) {
-        add_menu_page(
-            'Panel Klienta',
-            'Panel Klienta',
-            'read',
-            'client-dashboard',
-            'client_dashboard_render',
-            'dashicons-admin-users',
-            2
-        );
-    }
-});
-
-// 3. Renderowanie panelu (HTML + sekcje)
-function client_dashboard_render() {
-    if (!current_user_can('klient')) {
-        wp_die('Brak dostępu.');
-    }
-    include plugin_dir_path(__FILE__).'templates/dashboard.php';
+// Ładowanie zasobów (CSS/JS) na stronie z panelem
+function client_dashboard_enqueue_assets() {
+    wp_enqueue_style('client-dashboard-tailwind', plugin_dir_url(__FILE__).'assets/tailwind.min.css');
+    wp_enqueue_script('client-dashboard-alpine', plugin_dir_url(__FILE__).'assets/alpine.min.js', [], false, true);
+    wp_enqueue_script('client-dashboard-main', plugin_dir_url(__FILE__).'assets/dashboard.js', ['jquery'], false, true);
 }
 
-// 4. Ograniczenie dostępu do niepotrzebnych sekcji WP
-add_action('admin_init', function() {
-    if (current_user_can('klient')) {
-        remove_menu_page('plugins.php');
-        remove_menu_page('tools.php');
-        remove_menu_page('options-general.php');
-        remove_menu_page('edit-comments.php');
-        // ...dodaj inne niepotrzebne sekcje
+
+// Automatyczne tworzenie strony "Panel Klienta" przy aktywacji pluginu
+register_activation_hook(__FILE__, 'client_dashboard_create_page');
+function client_dashboard_create_page() {
+    $panel_page = array(
+        'post_title'    => 'Panel Klienta',
+        'post_name'     => 'panel',
+        'post_content'  => '',
+        'post_status'   => 'publish',
+        'post_type'     => 'page',
+    );
+    // Sprawdź czy strona już istnieje
+    $existing = get_page_by_path('panel');
+    if (!$existing) {
+        wp_insert_post($panel_page);
+    }
+}
+
+// Wyświetlanie panelu na stronie /panel
+add_action('template_redirect', function() {
+    if (is_page('panel')) {
+        if (!is_user_logged_in() || !(current_user_can('klient') || current_user_can('administrator'))) {
+            wp_die('<div class="bg-red-600 text-white p-4 rounded">Brak dostępu do panelu klienta.</div>');
+        }
+        client_dashboard_enqueue_assets();
+        status_header(200);
+        include plugin_dir_path(__FILE__).'templates/dashboard.php';
+        exit;
     }
 });
 
-// 5. REST API/AJAX endpointy do obsługi sekcji (zamówienia, produkty, wpisy, kupony, raporty, kontakt, zgłoszenia)
+// REST API/AJAX endpointy do obsługi sekcji (zamówienia, produkty, wpisy, kupony, raporty, kontakt, zgłoszenia)
 require_once plugin_dir_path(__FILE__).'inc/rest-endpoints.php';
 
-// 6. Obsługa powiadomień systemowych
+// Obsługa powiadomień systemowych
 require_once plugin_dir_path(__FILE__).'inc/notifications.php';
 
-// 7. Obsługa personalizacji dashboardu
+// Obsługa personalizacji dashboardu
 require_once plugin_dir_path(__FILE__).'inc/widgets.php';
 
-// 8. Bezpieczeństwo: nonce, walidacja, sanitizacja
+// Bezpieczeństwo: nonce, walidacja, sanitizacja
 require_once plugin_dir_path(__FILE__).'inc/security.php';
-
-// 9. Responsywny, nowoczesny CSS/JS (Tailwind, Alpine, dashboard.js)
