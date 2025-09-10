@@ -305,7 +305,7 @@
                         <div class="stat-card hover-lift">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-secondary rounded-modern">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                                     </svg>
                                 </div>
@@ -392,7 +392,7 @@
                         <div class="stat-card hover-lift cursor-pointer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-primary rounded-modern">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                 </div>
@@ -408,7 +408,7 @@
                         <div class="stat-card hover-lift cursor-pointer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-warning rounded-modern">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                                     </svg>
                                 </div>
@@ -455,7 +455,7 @@
                                 </div>
 
                                 <div class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-modern hover:border-gray-400 cursor-move transition-colors">
-                                    <svg class="w-6 h-6 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                     <div>
@@ -465,7 +465,7 @@
                                 </div>
 
                                 <div class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-modern hover:border-gray-400 cursor-move transition-colors">
-                                    <svg class="w-6 h-6 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                                     </svg>
                                     <div>
@@ -545,7 +545,7 @@
                         <div class="stat-card hover-lift cursor-pointer group">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-primary rounded-modern group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                                     </svg>
                                 </div>
