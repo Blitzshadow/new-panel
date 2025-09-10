@@ -1,16 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Przełączanie sekcji
+    // Przełączanie sekcji dla wszystkich linków sidebar
     document.querySelectorAll('aside nav a').forEach(link => {
         link.addEventListener('click', e => {
+            // Jeśli kliknięto toggle do podmenu, nie przełączaj sekcji
+            if (link.classList.contains('sidebar-toggle')) {
+                e.preventDefault();
+                return;
+            }
+
+            // Jeśli to link do sekcji, przełącz sekcję
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                showSection(href.substring(1));
+            }
+        });
+    });
+    // Sidebar: rozwijanie/zamykanie podmenu
+    document.querySelectorAll('.sidebar-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
             e.preventDefault();
-            document.querySelectorAll('main > section').forEach(sec => sec.style.display = 'none');
-            const target = document.querySelector(link.getAttribute('href'));
-            if (target) target.style.display = 'block';
+            const submenuId = toggle.getAttribute('data-toggle');
+            const submenu = document.getElementById(submenuId);
+            if (!submenu) return;
+
+            // Toggle klasy active dla animacji
+            const isOpen = submenu.classList.contains('open');
+            if (isOpen) {
+                submenu.classList.remove('open');
+            } else {
+                submenu.classList.add('open');
+            }
         });
     });
     // Domyślnie pokaż powitanie
-    document.querySelectorAll('main > section').forEach(sec => sec.style.display = 'none');
-    document.getElementById('welcome').style.display = 'block';
+    showSection('welcome');
+
+    // Funkcja do pokazywania sekcji
+    function showSection(sectionId) {
+        // Ukryj wszystkie sekcje
+        document.querySelectorAll('main > section').forEach(sec => {
+            sec.style.display = 'none';
+        });
+
+        // Pokaż wybraną sekcję
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.style.display = 'block';
+        }
+    }
 
     // Przykład toast powiadomienia
     window.showToast = function(msg, type = 'info') {

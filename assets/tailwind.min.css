@@ -5,17 +5,26 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 li { margin: 0; padding: 0; }
 /* Widgety, powiadomienia, sekcje */
 .widget ul, .widget ol, #notifications ul, #notifications ol { list-style: none; margin: 0; padding: 0; }
-/* Sidebar submenu wzmocnienie */
-.sidebar-submenu { list-style: none !important; margin: 0; padding: 0 0 0 2.5rem; }
-/* TailwindCSS CDN build - minimal dark theme for dashboard */
+/* Sidebar submenu animacje */
+.sidebar-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+.sidebar-submenu.open {
+    max-height: 500px;
+    opacity: 1;
+}
+/* TailwindCSS - jasny motyw dla dashboard */
 
 body, html { background: #f7f8fa; color: #222; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; }
-.bg-gray-900 { background: #f7f8fa; }
-.bg-gray-800 { background: #fff; }
-.text-gray-100 { color: #222; }
-.text-gray-400 { color: #888; }
-.bg-blue-600 { background: #0073aa; }
-.bg-blue-700 { background: #005c8c; }
+.bg-gray-900 { background: #1a202c; } /* ciemny dla nagłówków */
+.bg-gray-800 { background: #2d3748; } /* ciemny dla kart */
+.text-gray-100 { color: #f7fafc; } /* jasny tekst */
+.text-gray-400 { color: #a0aec0; } /* średni szary */
+.bg-blue-600 { background: #3182ce; }
+.bg-blue-700 { background: #2c5282; }
 .bg-red-600 { background: #e53e3e; }
 .bg-red-700 { background: #c53030; }
 .rounded { border-radius: 0.5rem; }
@@ -56,18 +65,18 @@ body, html { background: #f7f8fa; color: #222; font-family: 'Inter', 'Segoe UI',
 .min-h-screen { min-height: 100vh; }
 .bg-gray-700 { background: #f0f2f5; }
 .hover\:bg-gray-700:hover { background: #e9ecef; }
-.sidebar { background: #fff; border-right: 1px solid #e5e7eb; box-shadow: 2px 0 12px rgba(0,0,0,0.04); }
-.sidebar-active { background: #e9f5ff; color: #222; font-weight: 600; }
+.sidebar { background: #fff; border-right: 1px solid #e2e8f0; box-shadow: 2px 0 12px rgba(0,0,0,0.04); }
+.sidebar-active { background: #ebf8ff; color: #2b6cb0; font-weight: 600; }
 .sidebar-menu { padding: 1.5rem 0; }
-.sidebar-link { color: #222; font-size: 1.05rem; border-radius: 0.75rem; padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s; text-decoration: none; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-.sidebar-link:hover { background: #f0f2f5; color: #0073aa; box-shadow: 0 4px 16px rgba(0,115,170,0.08); transform: translateY(-2px) scale(1.03); text-decoration: none; }
-.sidebar-header { font-size: 1.35rem; font-weight: 700; color: #0073aa; padding: 2rem 1.5rem 1rem 1.5rem; letter-spacing: 0.03em; border-bottom: 1px solid #e5e7eb; background: #fff; }
+.sidebar-link { color: #2d3748; font-size: 1.05rem; border-radius: 0.75rem; padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s; text-decoration: none; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+.sidebar-link:hover { background: #f7fafc; color: #3182ce; box-shadow: 0 4px 16px rgba(49,130,206,0.08); transform: translateY(-2px) scale(1.03); text-decoration: none; }
+.sidebar-header { font-size: 1.35rem; font-weight: 700; color: #3182ce; padding: 2rem 1.5rem 1rem 1.5rem; letter-spacing: 0.03em; border-bottom: 1px solid #e2e8f0; background: #fff; }
 .card { background: #fff; border-radius: 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 2rem; }
 .card-header { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; }
-.btn { background: #0073aa; color: #fff; border-radius: 0.5rem; padding: 0.5rem 1.25rem; font-weight: 500; transition: background 0.2s; }
-.btn:hover { background: #005c8c; }
-.input { background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem 1rem; color: #222; }
-.input:focus { border-color: #0073aa; outline: none; }
+.btn { background: #3182ce; color: #fff; border-radius: 0.5rem; padding: 0.5rem 1.25rem; font-weight: 500; transition: background 0.2s; }
+.btn:hover { background: #2c5282; }
+.input { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 1rem; color: #2d3748; }
+.input:focus { border-color: #3182ce; outline: none; }
 .section-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #0073aa; }
 .active-link { background: #e9f5ff; color: #222; font-weight: 600; }
 .transition { transition: all 0.2s; }
