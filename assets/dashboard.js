@@ -1,16 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Funkcja do pokazywania sekcji
     function showSection(sectionId) {
-        // Ukryj wszystkie sekcje
-        document.querySelectorAll('main > section').forEach(sec => {
-            sec.style.display = 'none';
+        // Usuń klasę active ze wszystkich sekcji
+        document.querySelectorAll('main section').forEach(sec => {
+            sec.classList.remove('active');
         });
 
-        // Pokaż wybraną sekcję
+        // Usuń active z wszystkich sidebar linków
+        document.querySelectorAll('aside nav a.sidebar-link').forEach(a => a.classList.remove('active'));
+
+        // Pokaż wybraną sekcję przez dodanie klasy active
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
-            targetSection.style.display = 'block';
+            targetSection.classList.add('active');
         }
+
+        // Oznacz odpowiadający link jako aktywny (jeśli istnieje)
+        const link = document.querySelector(`aside nav a[href="#${sectionId}"]`);
+        if (link) link.classList.add('active');
     }
 
     // Przełączanie sekcji dla wszystkich linków sidebar
