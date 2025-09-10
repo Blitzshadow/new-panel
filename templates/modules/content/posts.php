@@ -134,13 +134,13 @@ function render_posts_section() {
     ));
     error_log("DEBUG: Posts for user $user_id: " . $user_posts_count);
 
-    // Buduj zapytanie SQL
+    // Buduj zapytanie SQL - temporarily show ALL posts for debugging
     $where_conditions = array();
-    $where_conditions[] = "p.post_author = %d"; // Re-enable author filter
+    // $where_conditions[] = "p.post_author = %d"; // Temporarily disable author filter
     $where_conditions[] = "p.post_type = 'post'";
     $where_conditions[] = "p.post_status IN ('publish', 'draft', 'pending', 'future')";
 
-    $params = array($user_id); // Add user_id back to params
+    $params = array(); // Remove user_id param temporarily
 
     // Dodaj wyszukiwanie
     if (!empty($search)) {
@@ -387,7 +387,7 @@ function render_posts_section() {
                             <!-- DEBUG: Wyświetl informacje debugowania -->
                             <tr>
                                 <td colspan="8" class="px-6 py-4 bg-yellow-900 text-yellow-100">
-                                    <strong>DEBUG INFO:</strong><br>
+                                    <strong>DEBUG INFO (showing ALL posts - author filter disabled for testing):</strong><br>
                                     Total posts: <?php echo $total_posts; ?><br>
                                     Posts in array: <?php echo count($posts_query->posts); ?><br>
                                     User ID: <?php echo $user_id; ?><br>
@@ -431,7 +431,19 @@ function render_posts_section() {
                                     <?php if (isset($posts_query_sql)): ?>
                                         <strong>Executed SQL:</strong> <?php echo htmlspecialchars($posts_query_sql); ?><br>
                                     <?php endif; ?>
-                                    Session user_id: <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'; ?>
+                                    Session user_id: <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'; ?><br>
+                                    <?php
+                                    // Show ALL posts in database for diagnosis
+                                    $all_posts_debug = $wpdb->get_results("SELECT ID, post_title, post_author, post_status FROM $posts_table WHERE post_type = 'post' LIMIT 5");
+                                    if (!empty($all_posts_debug)) {
+                                        echo '<strong>All posts in DB (first 5):</strong><br>';
+                                        foreach ($all_posts_debug as $ap) {
+                                            echo '- ID: ' . intval($ap->ID) . ', Title: ' . htmlspecialchars($ap->post_title) . ', Author: ' . intval($ap->post_author) . ', Status: ' . htmlspecialchars($ap->post_status) . '<br>';
+                                        }
+                                    } else {
+                                        echo '<strong>No posts found in database!</strong><br>';
+                                    }
+                                    ?>
                                 </td>
                             </tr>
 
