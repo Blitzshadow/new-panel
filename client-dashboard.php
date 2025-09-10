@@ -8,6 +8,15 @@ Author: Twoja Firma
 
 if (!defined('ABSPATH')) exit;
 
+// Start PHP session early to prevent 'headers already sent' warnings when templates use sessions
+if (session_status() == PHP_SESSION_NONE) {
+    if (!headers_sent()) {
+        @session_start();
+    } else {
+        error_log('DEBUG: session not started in plugin bootstrap because headers already sent');
+    }
+}
+
 // Ładowanie zasobów (CSS/JS) na stronie z panelem
 function client_dashboard_enqueue_assets() {
     if (function_exists('wp_enqueue_style') && function_exists('wp_enqueue_script') && function_exists('plugin_dir_url')) {
