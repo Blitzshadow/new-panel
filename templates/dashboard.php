@@ -7,6 +7,75 @@
         </div>
         <nav class="sidebar-menu flex-1">
             <ul class="space-y-1 list-none p-0 m-0">
+                <li class="sidebar-section">Dashboard</li>
+                <li>
+                    <a href="#dashboard" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 8h2v-2H7v2zm0-4h2v-2H7v2zm0-8v2h2V5H7zm4 8h2v-2h-2v2zm0 4h2v-2h-2v2zm0-8v2h2V5h-2zm4 8h2v-2h-2v2zm0-4h2v-2h-2v2zm0-8v2h2V5h-2z"/></svg>
+                        Strona główna
+                    </a>
+                </li>
+                <li class="sidebar-section">Treści</li>
+                <li>
+                    <a href="#posts" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 6h8M8 10h8M8 14h6"/></svg> Wpisy i Strony </a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="#posts-list" class="sidebar-link">Lista wpisów</a></li>
+                        <li><a href="#add-post" class="sidebar-link">Dodaj wpis</a></li>
+                        <li><a href="#pages-list" class="sidebar-link">Lista stron</a></li>
+                        <li><a href="#add-page" class="sidebar-link">Dodaj stronę</a></li>
+                        <li><a href="#media" class="sidebar-link">Biblioteka mediów</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-section">Sklep</li>
+                <li>
+                    <a href="#shop" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Zamówienia i Produkty </a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="#orders" class="sidebar-link">Zamówienia</a></li>
+                        <li><a href="#products" class="sidebar-link">Produkty</a></li>
+                        <li><a href="#coupons" class="sidebar-link">Kupony / Promocje</a></li>
+                        <li><a href="#reports" class="sidebar-link">Raporty i analityka</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-section">Użytkownicy</li>
+                <li>
+                    <a href="#customers" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg> Klienci i Użytkownicy </a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="#user-list" class="sidebar-link">Lista użytkowników</a></li>
+                        <li><a href="#user-profile" class="sidebar-link">Profil użytkownika</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-section">Komunikacja</li>
+                <li>
+                    <a href="#forms" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg> Formularze i Kontakty </a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="#contact-form" class="sidebar-link">Formularz kontaktowy</a></li>
+                        <li><a href="#support" class="sidebar-link">Zgłoś problem</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-section">System</li>
+                <li>
+                    <a href="#notifications" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg> Powiadomienia / System </a>
+                </li>
+                <li class="sidebar-section">Ustawienia</li>
+                <li>
+                    <a href="#settings" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Ustawienia strony </a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="#seo" class="sidebar-link">SEO</a></li>
+                        <li><a href="#integrations" class="sidebar-link">Integracje</a></li>
+                        <li><a href="#backup" class="sidebar-link">Backup</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-section">Personalizacja</li>
+                <li>
+                    <a href="#personalization" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg> Personalizacja panelu </a>
+                </li>
+                <li class="sidebar-section">Pomoc</li>
+                <li>
+                    <a href="#help" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Pomoc / Support </a>
+                </li>
+                <li class="sidebar-section">Zaawansowane</li>
+                <li>
+                    <a href="#advanced" class="sidebar-link"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg> Zaawansowane </a>
+                </li>
                 <li>
                     <a href="#dashboard" class="sidebar-link">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 8h2v-2H7v2zm0-4h2v-2H7v2zm0-8v2h2V5H7zm4 8h2v-2h-2v2zm0 4h2v-2h-2v2zm0-8v2h2V5h-2zm4 8h2v-2h-2v2zm0-4h2v-2h-2v2zm0-8v2h2V5h-2z"/></svg>
