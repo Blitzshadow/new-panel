@@ -7,13 +7,13 @@
 // Debug: sprawdź czy plik się wykonuje
 // echo "<!-- DEBUG: dashboard-modular.php loaded successfully -->";
 
-// Ładowanie modułów - TYMCZASOWO WYŁĄCZONE dla debugowania
+// Ładowanie modułów - stopniowe włączanie dla debugowania
+if (file_exists(__DIR__ . '/modules/content.php')) {
+    require_once __DIR__ . '/modules/content.php';
+}
 /*
 if (file_exists(__DIR__ . '/modules/personalization.php')) {
     require_once __DIR__ . '/modules/personalization.php';
-}
-if (file_exists(__DIR__ . '/modules/content.php')) {
-    require_once __DIR__ . '/modules/content.php';
 }
 */
 ?>
@@ -306,9 +306,13 @@ if (file_exists(__DIR__ . '/modules/content.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
-        // Renderuj sekcje - TYMCZASOWO WYŁĄCZONE dla debugowania
+        // Renderuj sekcje - włączanie modułu content
+        if (function_exists('render_posts_section')) {
+            render_posts_section();
+        }
+
+        // Renderuj sekcje personalizacji - nadal wyłączone
         /*
-        // Renderuj sekcje personalizacji - tylko jeśli funkcje istnieją
         if (function_exists('render_personalization_section')) {
             render_personalization_section();
         }
@@ -323,11 +327,6 @@ if (file_exists(__DIR__ . '/modules/content.php')) {
         }
         if (function_exists('render_shortcuts_section')) {
             render_shortcuts_section();
-        }
-
-        // Renderuj sekcje content
-        if (function_exists('render_posts_section')) {
-            render_posts_section();
         }
         */
         ?>
