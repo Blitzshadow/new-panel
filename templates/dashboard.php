@@ -10,7 +10,7 @@
                 <li class="sidebar-section">Personalizacja</li>
                 <li>
                     <a href="#personalization" class="sidebar-link sidebar-toggle" data-toggle="submenu-personalization">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128.75.75 0 01-1.5 0 4.5 4.5 0 018.4-2.409c-.26.201-.542.388-.832.58a1.5 1.5 0 01-1.78-.124z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 8.25a2.25 2.25 0 012.25 2.25c0 1.012-.442 1.915-1.125 2.52a.75.75 0 01-1.005-.933 3.75 3.75 0 00.627-2.087 3.75 3.75 0 00-3.75-3.75.75.75 0 01-.75-.75z"/>
                         </svg>
@@ -28,7 +28,7 @@
                 <li class="sidebar-section">Strony i Wpisy</li>
                 <li>
                     <a href="#posts" class="sidebar-link sidebar-toggle" data-toggle="submenu-posts">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h7.5"/>
                         </svg>
                         Wpisy <span class="ml-auto text-xs opacity-60">▼</span>
@@ -43,7 +43,7 @@
                 </li>
                 <li>
                     <a href="#pages" class="sidebar-link sidebar-toggle" data-toggle="submenu-pages">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12 3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
                         </svg>
                         Strony <span class="ml-auto text-xs opacity-60">▼</span>
@@ -57,7 +57,7 @@
                 </li>
                 <li>
                     <a href="#media" class="sidebar-link sidebar-toggle" data-toggle="submenu-media">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                         Media <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-media">
@@ -72,7 +72,7 @@
                 <li class="sidebar-section">Sklep</li>
                 <li>
                     <a href="#orders" class="sidebar-link sidebar-toggle" data-toggle="submenu-orders">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                         </svg>
                         Zamówienia <span class="ml-auto text-xs opacity-60">▼</span>
@@ -86,7 +86,7 @@
                 </li>
                 <li>
                     <a href="#products" class="sidebar-link sidebar-toggle" data-toggle="submenu-products">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.5a2.25 2.25 0 01-2.25 2.25H6.75a2.25 2.25 0 01-2.25-2.25L3.875 7.5m6 2.25L9 7.5m0 0L7.5 9m1.5-1.5L12 9m-4.5 0L9 10.5m0-3L10.5 9m3 0l-1.5-1.5M12 9l1.5 1.5M12 9L9 10.5m3-3l1.5 1.5M15 7.5l-1.5 1.5M15 7.5l1.5 1.5"/>
                         </svg>
                         Produkty <span class="ml-auto text-xs opacity-60">▼</span>
@@ -101,7 +101,7 @@
                 </li>
                 <li>
                     <a href="#coupons" class="sidebar-link sidebar-toggle" data-toggle="submenu-coupons">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7v10"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7v10"/></svg>
                         Kupony / Promocje <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-coupons">
@@ -116,7 +116,7 @@
                 <li class="sidebar-section">Raporty</li>
                 <li>
                     <a href="#reports" class="sidebar-link sidebar-toggle" data-toggle="submenu-reports">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 13l3 3 7-7"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 13l3 3 7-7"/></svg>
                         Raporty i analityka <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-reports">
@@ -133,7 +133,7 @@
                 <li class="sidebar-section">Klienci</li>
                 <li>
                     <a href="#customers" class="sidebar-link sidebar-toggle" data-toggle="submenu-customers">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                         Klienci i Użytkownicy <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-customers">
@@ -149,7 +149,7 @@
                 <li class="sidebar-section">Formularze</li>
                 <li>
                     <a href="#forms" class="sidebar-link sidebar-toggle" data-toggle="submenu-forms">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Formularze i Kontakty <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-forms">
@@ -164,7 +164,7 @@
                 <li class="sidebar-section">Ustawienia</li>
                 <li>
                     <a href="#settings" class="sidebar-link sidebar-toggle" data-toggle="submenu-settings">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                         Ustawienia strony <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-settings">
@@ -177,7 +177,7 @@
                 </li>
                 <li>
                     <a href="#integrations" class="sidebar-link sidebar-toggle" data-toggle="submenu-integrations">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Integracje i dodatki <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-integrations">
@@ -192,7 +192,7 @@
                 <li class="sidebar-section">Profil</li>
                 <li>
                     <a href="#profile" class="sidebar-link sidebar-toggle" data-toggle="submenu-profile">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                         Profil użytkownika <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-profile">
@@ -207,7 +207,7 @@
                 <li class="sidebar-section">Pomoc / Support</li>
                 <li>
                     <a href="#help" class="sidebar-link sidebar-toggle" data-toggle="submenu-help">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                         Dokumentacja / FAQ <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-help">
@@ -221,7 +221,7 @@
                 <li class="sidebar-section">Zaawansowane</li>
                 <li>
                     <a href="#advanced" class="sidebar-link sidebar-toggle" data-toggle="submenu-advanced">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Zaawansowane <span class="ml-auto">&#9662;</span>
                     </a>
                     <ul class="sidebar-submenu" id="submenu-advanced">
@@ -235,7 +235,7 @@
                 <!-- Powiadomienia -->
                 <li>
                     <a href="#notifications" class="sidebar-link">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
                         Powiadomienia / System
                     </a>
                 </li>
@@ -259,13 +259,13 @@
                         <?php endif; ?>
                         <div class="mt-6 flex gap-4">
                             <button class="btn bg-gradient-primary hover:shadow-glow transform hover:scale-105 transition-all duration-300">
-                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                                 </svg>
                                 Rozpocznij pracę
                             </button>
                             <button class="btn bg-white text-gray-900 border-2 border-gray-200 hover:border-gray-300 hover:shadow-modern transition-all duration-300">
-                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 Pomoc
@@ -292,7 +292,7 @@
                         <div class="stat-card hover-lift">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-primary rounded-modern">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"/>
                                     </svg>
                                 </div>
@@ -305,7 +305,7 @@
                         <div class="stat-card hover-lift">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-secondary rounded-modern">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                                     </svg>
                                 </div>
@@ -318,7 +318,7 @@
                         <div class="stat-card hover-lift">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-warning rounded-modern">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                     </svg>
                                 </div>
@@ -376,7 +376,7 @@
                         <div class="stat-card hover-lift cursor-pointer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-success rounded-modern">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                                     </svg>
                                 </div>
@@ -392,7 +392,7 @@
                         <div class="stat-card hover-lift cursor-pointer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-primary rounded-modern">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                 </div>
@@ -408,7 +408,7 @@
                         <div class="stat-card hover-lift cursor-pointer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-warning rounded-modern">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                                     </svg>
                                 </div>
@@ -445,7 +445,7 @@
 
                             <div class="space-y-3">
                                 <div class="flex items-center p-4 border-2 border-dashed border-gray-600 rounded-modern hover:border-gray-500 cursor-move transition-colors bg-gray-800 bg-opacity-50">
-                                    <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                                     </svg>
                                     <div>
@@ -455,7 +455,7 @@
                                 </div>
 
                                 <div class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-modern hover:border-gray-400 cursor-move transition-colors">
-                                    <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                     <div>
@@ -465,7 +465,7 @@
                                 </div>
 
                                 <div class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-modern hover:border-gray-400 cursor-move transition-colors">
-                                    <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                                     </svg>
                                     <div>
@@ -532,7 +532,7 @@
                         <div class="stat-card hover-lift cursor-pointer group">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-success rounded-modern group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                                     </svg>
                                 </div>
@@ -545,7 +545,7 @@
                         <div class="stat-card hover-lift cursor-pointer group">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-primary rounded-modern group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                                     </svg>
                                 </div>
@@ -558,7 +558,7 @@
                         <div class="stat-card hover-lift cursor-pointer group">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-warning rounded-modern group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
                                     </svg>
                                 </div>
@@ -571,7 +571,7 @@
                         <div class="stat-card hover-lift cursor-pointer group">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 bg-gradient-secondary rounded-modern group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
