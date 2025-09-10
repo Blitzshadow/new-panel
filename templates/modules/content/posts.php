@@ -423,7 +423,7 @@ function render_posts_section() {
     </section>
 
     <!-- Modal dla akcji masowych -->
-    <div id="bulk-actions-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div id="bulk-actions-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50" style="display: none;">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-gray-800 rounded-modern p-6 w-full max-w-md">
                 <h3 class="text-lg font-semibold text-gray-100 mb-4">Akcje masowe</h3>
@@ -551,11 +551,18 @@ function render_posts_section() {
 
         // Modal akcji masowych
         bulkActionsBtn.addEventListener('click', function() {
-            bulkModal.classList.remove('hidden');
+            bulkModal.style.display = 'flex';
         });
 
         cancelBulkBtn.addEventListener('click', function() {
-            bulkModal.classList.add('hidden');
+            bulkModal.style.display = 'none';
+        });
+
+        // Zamykanie modala przy kliknięciu w tło
+        bulkModal.addEventListener('click', function(e) {
+            if (e.target === bulkModal) {
+                bulkModal.style.display = 'none';
+            }
         });
 
         // Akcje masowe
