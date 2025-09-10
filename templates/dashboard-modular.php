@@ -308,22 +308,6 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
-        // Visible debug banner: confirm dashboard renders and DB access
-        // ...existing code...
-        global $wpdb;
-        $fn_exists = function_exists('render_posts_section') ? 'yes' : 'no';
-        $db_prefix = isset($wpdb->prefix) ? $wpdb->prefix : 'unknown';
-        $total_posts = null;
-        if (isset($wpdb)) {
-            $posts_table = $wpdb->prefix . 'posts';
-            // safe quick count — exclude attachments
-            $total_posts = $wpdb->get_var("SELECT COUNT(*) FROM `{$posts_table}` WHERE post_type='post'");
-        }
-        echo '<div style="background:#fff6f6;color:#a00;border:1px solid #faa;padding:8px;margin:8px 0;border-radius:6px;">'
-            . 'DEBUG: render_posts_section=' . $fn_exists
-            . '; db_prefix=' . esc_html($db_prefix)
-            . '; total_posts=' . intval($total_posts)
-            . '</div>';
         // Renderuj sekcje - włączanie modułu content
         if (function_exists('render_posts_section')) {
             render_posts_section();
