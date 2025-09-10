@@ -24,6 +24,13 @@ function render_posts_section() {
     echo 'DEBUG: render_posts_section() function called successfully!';
     echo '</div>';
 
+    // Check if WordPress is loaded
+    echo '<div style="background:#ffa502;color:#000;padding:10px;margin:10px;border-radius:5px;">';
+    echo 'DEBUG: ABSPATH defined: ' . (defined('ABSPATH') ? 'YES' : 'NO');
+    echo '<br>DEBUG: WPINC defined: ' . (defined('WPINC') ? 'YES' : 'NO');
+    echo '<br>DEBUG: WordPress functions available: ' . (function_exists('wp_get_current_user') ? 'YES' : 'NO');
+    echo '</div>';
+
     // Check database connection
     global $wpdb;
     if (!$wpdb) {
@@ -37,6 +44,8 @@ function render_posts_section() {
     $prefix = $wpdb->prefix;
     echo '<div style="background:#3742fa;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
     echo 'DEBUG: Table prefix detected: ' . htmlspecialchars($prefix);
+    echo '<br>DEBUG: Expected prefix: wp_724689f_';
+    echo '<br>DEBUG: Prefix matches: ' . ($prefix === 'wp_724689f_' ? 'YES' : 'NO');
     echo '</div>';
 
     // Check if posts table exists
@@ -57,6 +66,8 @@ function render_posts_section() {
                 echo '<li>ID: ' . intval($post->ID) . ' - Title: ' . htmlspecialchars($post->post_title) . '</li>';
             }
             echo '</ul>';
+        } else {
+            echo '<br>No posts found in database!';
         }
         echo '</div>';
     } catch (Exception $e) {
