@@ -1,4 +1,4 @@
-<div id="client-dashboard" class="min-h-screen flex font-display" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+<div id="client-dashboard" class="min-h-screen flex font-display" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
     <!-- Panel boczny -->
     <aside class="sidebar w-72 min-h-screen shadow-modern-lg">
         <nav class="sidebar-menu">
@@ -243,7 +243,7 @@
         </nav>
     </aside>
     <!-- Główna sekcja -->
-    <main class="flex-1 p-8 space-y-8 overflow-auto" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+    <main class="flex-1 p-8 space-y-8 overflow-auto" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
         <!-- Sekcje powitalne -->
         <section id="welcome" class="animate-fadeIn">
             <!-- Widżet powitalny -->
@@ -252,10 +252,10 @@
                     <div class="flex-1">
                         <?php if (function_exists('wp_get_current_user')): ?>
                             <h2 class="text-3xl font-display font-bold mb-3 text-gradient">Witaj, <?php echo wp_get_current_user()->display_name; ?>!</h2>
-                            <p class="text-gray-600 text-lg leading-relaxed">Miło Cię widzieć w panelu klienta. Zarządzaj swoją stroną i sklepem w jednym miejscu.</p>
+                            <p class="text-gray-300 text-lg leading-relaxed">Miło Cię widzieć w panelu klienta. Zarządzaj swoją stroną i sklepem w jednym miejscu.</p>
                         <?php else: ?>
                             <h2 class="text-3xl font-display font-bold mb-3 text-gradient">Witaj w panelu klienta!</h2>
-                            <p class="text-gray-600 text-lg leading-relaxed">Panel uruchomiony poza WordPressem – brak personalizacji.</p>
+                            <p class="text-gray-300 text-lg leading-relaxed">Panel uruchomiony poza WordPressem – brak personalizacji.</p>
                         <?php endif; ?>
                         <div class="mt-6 flex gap-4">
                             <button class="btn bg-gradient-primary hover:shadow-glow transform hover:scale-105 transition-all duration-300">
@@ -264,7 +264,7 @@
                                 </svg>
                                 Rozpocznij pracę
                             </button>
-                            <button class="btn bg-white text-gray-700 border-2 border-gray-200 hover:border-gray-300 hover:shadow-modern transition-all duration-300">
+                            <button class="btn bg-white text-gray-900 border-2 border-gray-200 hover:border-gray-300 hover:shadow-modern transition-all duration-300">
                                 <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
@@ -287,7 +287,7 @@
         <section id="personalization" class="animate-fadeIn">
             <div class="card hover-lift">
                 <div class="card-header section-title">Personalizacja panelu</div>
-                <div id="personalization-content" class="text-gray-600">
+                <div id="personalization-content" class="text-gray-300">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="stat-card hover-lift">
                             <div class="flex items-center justify-between mb-4">
@@ -298,8 +298,8 @@
                                 </div>
                                 <span class="badge badge-info">Aktywny</span>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Widżety Dashboard</h4>
-                            <p class="text-sm text-gray-600">Dostosuj widżety wyświetlane na głównym panelu</p>
+                            <h4 class="font-semibold text-gray-100 mb-2">Widżety Dashboard</h4>
+                            <p class="text-sm text-gray-400">Dostosuj widżety wyświetlane na głównym panelu</p>
                         </div>
 
                         <div class="stat-card hover-lift">
@@ -311,8 +311,8 @@
                                 </div>
                                 <span class="badge badge-success">Gotowe</span>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Branding</h4>
-                            <p class="text-sm text-gray-600">Personalizuj kolory i logo swojej marki</p>
+                            <h4 class="font-semibold text-gray-100 mb-2">Branding</h4>
+                            <p class="text-sm text-gray-400">Personalizuj kolory i logo swojej marki</p>
                         </div>
 
                         <div class="stat-card hover-lift">
@@ -324,8 +324,8 @@
                                 </div>
                                 <span class="badge badge-warning">Beta</span>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Skróty</h4>
-                            <p class="text-sm text-gray-600">Szybki dostęp do najczęściej używanych funkcji</p>
+                            <h4 class="font-semibold text-gray-100 mb-2">Skróty</h4>
+                            <p class="text-sm text-gray-400">Szybki dostęp do najczęściej używanych funkcji</p>
                         </div>
                     </div>
                 </div>
@@ -359,8 +359,8 @@
                                 <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
-                                <h4 class="text-lg font-semibold text-gray-700 mb-2">Przeciągnij pliki tutaj</h4>
-                                <p class="text-gray-500">lub kliknij, aby wybrać</p>
+                                <h4 class="text-lg font-semibold text-gray-100 mb-2">Przeciągnij pliki tutaj</h4>
+                                <p class="text-gray-400">lub kliknij, aby wybrać</p>
                                 <button class="mt-4 btn bg-gradient-primary">Wybierz pliki</button>
                             </div>
                         </div>
@@ -385,8 +385,8 @@
                                     <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
                                 </div>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Statystyki sprzedaży</h4>
-                            <p class="text-sm text-gray-600">Wyświetla kluczowe wskaźniki sprzedaży i przychodów</p>
+                            <h4 class="font-semibold text-gray-100 mb-2">Statystyki sprzedaży</h4>
+                            <p class="text-sm text-gray-400">Wyświetla kluczowe wskaźniki sprzedaży i przychodów</p>
                         </div>
 
                         <div class="stat-card hover-lift cursor-pointer">
@@ -401,8 +401,8 @@
                                     <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
                                 </div>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Aktywni użytkownicy</h4>
-                            <p class="text-sm text-gray-600">Monitoruje aktywność użytkowników w czasie rzeczywistym</p>
+                            <h4 class="font-semibold text-gray-100 mb-2">Aktywni użytkownicy</h4>
+                            <p class="text-sm text-gray-400">Monitoruje aktywność użytkowników w czasie rzeczywistym</p>
                         </div>
 
                         <div class="stat-card hover-lift cursor-pointer">
@@ -417,15 +417,15 @@
                                     <input type="checkbox" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
                                 </div>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Najnowsze zamówienia</h4>
-                            <p class="text-sm text-gray-600">Lista ostatnich zamówień z statusami</p>
+                            <h4 class="font-semibold text-gray-100 mb-2">Najnowsze zamówienia</h4>
+                            <p class="text-sm text-gray-400">Lista ostatnich zamówień z statusami</p>
                         </div>
                     </div>
 
                     <div class="mt-8 p-6 bg-gradient-primary rounded-modern-lg text-white">
                         <h4 class="text-xl font-semibold mb-3">Układ dashboard</h4>
                         <p class="opacity-90 mb-4">Przeciągnij widżety, aby zmienić ich kolejność i układ</p>
-                        <button class="btn bg-white text-gray-800 hover:bg-gray-50">Zapisz układ</button>
+                        <button class="btn bg-white text-gray-900 hover:bg-gray-50">Zapisz układ</button>
                     </div>
                 </div>
             </div>
@@ -441,62 +441,62 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div class="space-y-4">
-                            <h5 class="text-lg font-semibold text-gray-800 mb-4">Dostępne elementy</h5>
+                            <h5 class="text-lg font-semibold text-gray-100 mb-4">Dostępne elementy</h5>
 
                             <div class="space-y-3">
-                                <div class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-modern hover:border-gray-400 cursor-move transition-colors">
-                                    <svg class="w-6 h-6 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="flex items-center p-4 border-2 border-dashed border-gray-600 rounded-modern hover:border-gray-500 cursor-move transition-colors bg-gray-800 bg-opacity-50">
+                                    <svg class="w-6 h-6 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                                     </svg>
                                     <div>
-                                        <h6 class="font-medium text-gray-800">Wykres sprzedaży</h6>
-                                        <p class="text-sm text-gray-600">Wizualizacja danych sprzedażowych</p>
+                                        <h6 class="font-medium text-gray-100">Wykres sprzedaży</h6>
+                                        <p class="text-sm text-gray-400">Wizualizacja danych sprzedażowych</p>
                                     </div>
                                 </div>
 
                                 <div class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-modern hover:border-gray-400 cursor-move transition-colors">
-                                    <svg class="w-6 h-6 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-6 h-6 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                     <div>
-                                        <h6 class="font-medium text-gray-800">Lista użytkowników</h6>
-                                        <p class="text-sm text-gray-600">Zarządzanie użytkownikami</p>
+                                        <h6 class="font-medium text-gray-100">Lista użytkowników</h6>
+                                        <p class="text-sm text-gray-400">Zarządzanie użytkownikami</p>
                                     </div>
                                 </div>
 
                                 <div class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-modern hover:border-gray-400 cursor-move transition-colors">
-                                    <svg class="w-6 h-6 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-6 h-6 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                                     </svg>
                                     <div>
-                                        <h6 class="font-medium text-gray-800">Statystyki</h6>
-                                        <p class="text-sm text-gray-600">Kluczowe wskaźniki wydajności</p>
+                                        <h6 class="font-medium text-gray-100">Statystyki</h6>
+                                        <p class="text-sm text-gray-400">Kluczowe wskaźniki wydajności</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="space-y-4">
-                            <h5 class="text-lg font-semibold text-gray-800 mb-4">Podgląd układu</h5>
+                            <h5 class="text-lg font-semibold text-gray-100 mb-4">Podgląd układu</h5>
 
                             <div class="border-2 border-gray-200 rounded-modern-lg p-6 min-h-96 bg-gray-50">
                                 <div class="grid grid-cols-2 gap-4 h-full">
                                     <div class="bg-white p-4 rounded-modern shadow-modern">
-                                        <h6 class="font-medium text-gray-800 mb-2">Wykres sprzedaży</h6>
+                                        <h6 class="font-medium text-gray-100 mb-2">Wykres sprzedaży</h6>
                                         <div class="h-20 bg-gradient-primary rounded opacity-20"></div>
                                     </div>
 
-                                    <div class="bg-white p-4 rounded-modern shadow-modern">
-                                        <h6 class="font-medium text-gray-800 mb-2">Lista użytkowników</h6>
+                                    <div class="bg-gray-800 p-4 rounded-modern shadow-modern">
+                                        <h6 class="font-medium text-gray-100 mb-2">Lista użytkowników</h6>
                                         <div class="space-y-2">
-                                            <div class="h-3 bg-gray-200 rounded"></div>
-                                            <div class="h-3 bg-gray-200 rounded w-3/4"></div>
-                                            <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                                            <div class="h-3 bg-gray-600 rounded"></div>
+                                            <div class="h-3 bg-gray-600 rounded w-3/4"></div>
+                                            <div class="h-3 bg-gray-600 rounded w-1/2"></div>
                                         </div>
                                     </div>
 
-                                    <div class="bg-white p-4 rounded-modern shadow-modern col-span-2">
-                                        <h6 class="font-medium text-gray-800 mb-2">Statystyki</h6>
+                                    <div class="bg-gray-800 p-4 rounded-modern shadow-modern col-span-2">
+                                        <h6 class="font-medium text-gray-100 mb-2">Statystyki</h6>
                                         <div class="grid grid-cols-3 gap-4">
                                             <div class="text-center">
                                                 <div class="stat-value text-2xl">1,234</div>
@@ -518,7 +518,7 @@
                     </div>
 
                     <div class="mt-8 flex justify-end space-x-4">
-                        <button class="btn bg-gray-200 text-gray-700 hover:bg-gray-300">Resetuj układ</button>
+                        <button class="btn bg-gray-200 text-gray-900 hover:bg-gray-300">Resetuj układ</button>
                         <button class="btn bg-gradient-primary">Zapisz zmiany</button>
                     </div>
                 </div>
@@ -537,9 +537,9 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Nowy wpis</h4>
-                            <p class="text-sm text-gray-600">Szybko dodaj nowy wpis do bloga</p>
-                            <div class="mt-3 text-xs text-gray-500">Ctrl + N</div>
+                            <h4 class="font-semibold text-gray-100 mb-2">Nowy wpis</h4>
+                            <p class="text-sm text-gray-400">Szybko dodaj nowy wpis do bloga</p>
+                            <div class="mt-3 text-xs text-gray-400">Ctrl + N</div>
                         </div>
 
                         <div class="stat-card hover-lift cursor-pointer group">
@@ -550,9 +550,9 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Zamówienia</h4>
-                            <p class="text-sm text-gray-600">Zobacz wszystkie zamówienia</p>
-                            <div class="mt-3 text-xs text-gray-500">Ctrl + O</div>
+                            <h4 class="font-semibold text-gray-100 mb-2">Zamówienia</h4>
+                            <p class="text-sm text-gray-400">Zobacz wszystkie zamówienia</p>
+                            <div class="mt-3 text-xs text-gray-400">Ctrl + O</div>
                         </div>
 
                         <div class="stat-card hover-lift cursor-pointer group">
@@ -563,9 +563,9 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Użytkownicy</h4>
-                            <p class="text-sm text-gray-600">Zarządzaj użytkownikami</p>
-                            <div class="mt-3 text-xs text-gray-500">Ctrl + U</div>
+                            <h4 class="font-semibold text-gray-100 mb-2">Użytkownicy</h4>
+                            <p class="text-sm text-gray-400">Zarządzaj użytkownikami</p>
+                            <div class="mt-3 text-xs text-gray-400">Ctrl + U</div>
                         </div>
 
                         <div class="stat-card hover-lift cursor-pointer group">
@@ -577,9 +577,9 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Ustawienia</h4>
-                            <p class="text-sm text-gray-600">Konfiguracja systemu</p>
-                            <div class="mt-3 text-xs text-gray-500">Ctrl + S</div>
+                            <h4 class="font-semibold text-gray-100 mb-2">Ustawienia</h4>
+                            <p class="text-sm text-gray-400">Konfiguracja systemu</p>
+                            <div class="mt-3 text-xs text-gray-400">Ctrl + S</div>
                         </div>
                     </div>
 
@@ -606,7 +606,7 @@
                         </div>
 
                         <div class="mt-6">
-                            <button class="btn bg-white text-gray-800 hover:bg-gray-50">Dodaj nowy skrót</button>
+                            <button class="btn bg-white text-gray-900 hover:bg-gray-50">Dodaj nowy skrót</button>
                         </div>
                     </div>
                 </div>
