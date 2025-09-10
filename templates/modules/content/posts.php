@@ -10,6 +10,21 @@ if (!defined('ABSPATH')) exit;
  * Funkcja renderująca sekcję posts z pełną funkcjonalnością
  */
 function render_posts_section() {
+    // Uruchom sesję jeśli nie jest uruchomiona
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // DEBUG: Ustaw domyślne wartości sesji dla testowania
+    if (!isset($_SESSION['user_id'])) {
+        $_SESSION['user_id'] = 1; // Domyślny użytkownik
+        error_log("DEBUG: Set default user_id to 1");
+    }
+    if (!isset($_SESSION['user_role'])) {
+        $_SESSION['user_role'] = 'administrator'; // Domyślna rola
+        error_log("DEBUG: Set default user_role to administrator");
+    }
+
     // Proste sprawdzenie uprawnień (w rzeczywistym systemie użyj lepszej logiki)
     $user_role = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : 'klient';
     if ($user_role !== 'klient' && $user_role !== 'administrator') {
@@ -54,9 +69,48 @@ function render_posts_section() {
         $args['cat'] = $category_filter;
     }
 
-    // Pobierz wpisy bezpośrednio z bazy danych dla lepszej kompatybilności
     global $wpdb;
+
+    // DEBUG: Sprawdź połączenie z bazą danych
+    if (!$wpdb) {
+        error_log("DEBUG: Brak połączenia z bazą danych");
+        echo "<div class='bg-red-900 text-red-100 p-4 rounded'>Błąd: Brak połączenia z bazą danych</div>";
+        return;
+    }
+
     $prefix = $wpdb->prefix;
+
+    /**
+     * Helper: bezpieczne przygotowanie zapytań z dynamiczną liczbą parametrów.
+     * Jeśli nie ma parametrów, zwraca surowe zapytanie (bez prepare).
+     */
+    function wpap_prepare_query($query, $params = array()) {
+        global $wpdb;
+        if (empty($params)) {
+            return $query;
+        }
+        return call_user_func_array(array($wpdb, 'prepare'), array_merge(array($query), $params));
+    }
+
+    // DEBUG: Sprawdź prefix tabeli
+    error_log("DEBUG: WordPress table prefix: " . $prefix);
+    $expected_prefix = 'wp_724689f_';
+    error_log("DEBUG: Expected prefix: " . $expected_prefix);
+    error_log("DEBUG: Prefix matches expected: " . ($prefix === $expected_prefix ? 'YES' : 'NO'));
+
+    // DEBUG: Testuj połączenie z bazą danych
+    try {
+        $test_query = $wpdb->get_var("SELECT 1");
+        if ($test_query !== "1") {
+            error_log("DEBUG: Database connection test failed");
+            echo "<div class='bg-red-900 text-red-100 p-4 rounded'>Błąd: Problem z połączeniem do bazy danych</div>";
+            return;
+        }
+    } catch (Exception $e) {
+        error_log("DEBUG: Database error: " . $e->getMessage());
+        echo "<div class='bg-red-900 text-red-100 p-4 rounded'>Błąd bazy danych: " . $e->getMessage() . "</div>";
+        return;
+    }
     $posts_table = $prefix . 'posts';
     $postmeta_table = $prefix . 'postmeta';
     $term_relationships = $prefix . 'term_relationships';
@@ -65,13 +119,27 @@ function render_posts_section() {
 
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
 
+    // DEBUG: Testuj proste zapytanie bez filtrów
+    $simple_posts = $wpdb->get_results("SELECT ID, post_title, post_author FROM $posts_table WHERE post_type = 'post' LIMIT 5");
+    error_log("DEBUG: Simple query results count: " . count($simple_posts));
+    if (!empty($simple_posts)) {
+        error_log("DEBUG: First post: " . print_r($simple_posts[0], true));
+    }
+
+    // DEBUG: Sprawdź wpisy konkretnego użytkownika
+    $user_posts_count = $wpdb->get_var($wpdb->prepare(
+        "SELECT COUNT(*) FROM $posts_table WHERE post_author = %d AND post_type = 'post'",
+        $user_id
+    ));
+    error_log("DEBUG: Posts for user $user_id: " . $user_posts_count);
+
     // Buduj zapytanie SQL
     $where_conditions = array();
-    $where_conditions[] = "p.post_author = %d";
+    // $where_conditions[] = "p.post_author = %d"; // Tymczasowo wyłącz filtr autora
     $where_conditions[] = "p.post_type = 'post'";
     $where_conditions[] = "p.post_status IN ('publish', 'draft', 'pending', 'future')";
 
-    $params = array($user_id);
+    $params = array(); // $user_id usunięty tymczasowo
 
     // Dodaj wyszukiwanie
     if (!empty($search)) {
@@ -99,11 +167,12 @@ function render_posts_section() {
     $where_clause = implode(' AND ', $where_conditions);
 
     // Pobierz całkowitą liczbę wpisów
-    $total_query = $wpdb->prepare(
-        "SELECT COUNT(*) FROM $posts_table p WHERE $where_clause",
-        $params
-    );
-    $total_posts = $wpdb->get_var($total_query);
+        if (empty($params)) {
+            $total_query = "SELECT COUNT(*) FROM $posts_table p WHERE $where_clause";
+        } else {
+            $total_query = wpap_prepare_query("SELECT COUNT(*) FROM $posts_table p WHERE $where_clause", $params);
+        }
+        $total_posts = $wpdb->get_var($total_query);
 
     // Pobierz wpisy z paginacją
     $offset = ($current_page - 1) * $posts_per_page;
@@ -118,17 +187,39 @@ function render_posts_section() {
         $order_by = 'p.post_modified ' . $order;
     }
 
-    $posts_query_sql = $wpdb->prepare(
-        "SELECT p.ID, p.post_title, p.post_date, p.post_modified, p.post_status, p.post_author,
-                p.comment_count
-         FROM $posts_table p
-         WHERE $where_clause
-         ORDER BY $order_by
-         LIMIT %d OFFSET %d",
-        array_merge($params, array($posts_per_page, $offset))
-    );
+    $limit_offset_params = array_merge($params, array($posts_per_page, $offset));
+    $query_template = "SELECT p.ID, p.post_title, p.post_date, p.post_modified, p.post_status, p.post_author, p.comment_count
+        FROM $posts_table p
+        WHERE $where_clause
+        ORDER BY $order_by
+        LIMIT %d OFFSET %d";
+    $posts_query_sql = wpap_prepare_query($query_template, $limit_offset_params);
 
-    $posts = $wpdb->get_results($posts_query_sql);
+    // DEBUG: Sprawdź połączenie z bazą danych
+    if (!$wpdb) {
+        error_log("DEBUG: Brak połączenia z bazą danych");
+        $posts = array();
+        $total_posts = 0;
+    } else {
+        // Sprawdź czy tabela posts istnieje
+        $posts_table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $posts_table));
+        error_log("DEBUG: Posts table exists: " . ($posts_table_exists ? 'YES' : 'NO'));
+
+        if (!$posts_table_exists) {
+            error_log("DEBUG: Table $posts_table does not exist!");
+            $posts = array();
+            $total_posts = 0;
+        } else {
+            $posts = $wpdb->get_results($posts_query_sql);
+        }
+    }
+
+    // DEBUG: Sprawdź czy zapytanie działa
+    error_log("DEBUG: Total posts found: " . $total_posts);
+    error_log("DEBUG: Posts array count: " . count($posts));
+    error_log("DEBUG: User ID: " . $user_id);
+    error_log("DEBUG: Table prefix: " . $prefix);
+    error_log("DEBUG: SQL Query: " . $posts_query_sql);
 
     // Symuluj obiekt WP_Query dla kompatybilności z resztą kodu
     $posts_query = new stdClass();
@@ -289,6 +380,36 @@ function render_posts_section() {
                             </tr>
                         </thead>
                         <tbody id="posts-table-body">
+                            <!-- DEBUG: Wyświetl informacje debugowania -->
+                            <tr>
+                                <td colspan="8" class="px-6 py-4 bg-yellow-900 text-yellow-100">
+                                    <strong>DEBUG INFO (filtr autora tymczasowo wyłączony):</strong><br>
+                                    Total posts: <?php echo $total_posts; ?><br>
+                                    Posts in array: <?php echo count($posts_query->posts); ?><br>
+                                    User ID: <?php echo $user_id; ?><br>
+                                    Table prefix: <?php echo $prefix; ?><br>
+                                    Expected prefix: wp_724689f_<br>
+                                    Prefix correct: <?php echo ($prefix === 'wp_724689f_') ? 'YES' : 'NO'; ?><br>
+                                    Current page: <?php echo $current_page; ?><br>
+                                    Posts per page: <?php echo $posts_per_page; ?><br>
+                                    <?php
+                                    $all_posts_count = $wpdb->get_var("SELECT COUNT(*) FROM $posts_table WHERE post_type = 'post'");
+                                    $user_posts_count = $wpdb->get_var($wpdb->prepare(
+                                        "SELECT COUNT(*) FROM $posts_table WHERE post_author = %d AND post_type = 'post'",
+                                        $user_id
+                                    ));
+                                    $simple_posts = $wpdb->get_results("SELECT ID, post_title, post_author FROM $posts_table WHERE post_type = 'post' LIMIT 5");
+                                    ?>
+                                    All posts in DB: <?php echo $all_posts_count; ?><br>
+                                    User posts in DB: <?php echo $user_posts_count; ?><br>
+                                    Simple query results: <?php echo count($simple_posts); ?><br>
+                                    <?php if (!empty($simple_posts)): ?>
+                                        First post: <?php echo htmlspecialchars($simple_posts[0]->post_title); ?> (ID: <?php echo $simple_posts[0]->ID; ?>)<br>
+                                    <?php endif; ?>
+                                    Session user_id: <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'; ?>
+                                </td>
+                            </tr>
+
                             <?php if (!empty($posts_query->posts)): ?>
                                 <?php foreach ($posts_query->posts as $post): ?>
                                     <?php
@@ -299,12 +420,14 @@ function render_posts_section() {
                                     $comment_count = $post->comment_count;
 
                                     // Pobierz kategorie dla tego wpisu
-                                    $post_categories = $wpdb->get_results($wpdb->prepare(
-                                        "SELECT t.name FROM {$prefix}terms t
-                                         INNER JOIN {$prefix}term_relationships tr ON t.term_id = tr.term_taxonomy_id
-                                         WHERE tr.object_id = %d",
-                                        $post_id
-                                    ));
+                                        $post_categories = $wpdb->get_results($wpdb->prepare(
+                                            "SELECT t.name
+                                             FROM {$prefix}term_relationships tr
+                                             INNER JOIN {$prefix}term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                                             INNER JOIN {$prefix}terms t ON tt.term_id = t.term_id
+                                             WHERE tr.object_id = %d",
+                                            $post_id
+                                        ));
 
                                     $status_badge = get_status_badge($post_status);
                                     ?>
@@ -726,7 +849,8 @@ function render_posts_section() {
                 if (data.success) {
                     location.reload();
                 } else {
-                    alert('Wystąpił błąd: ' + data.data);
+                    const msg = data.message || data.data || 'Nieznany błąd';
+                    alert('Wystąpił błąd: ' + msg);
                 }
             })
             .catch(error => {
@@ -768,7 +892,8 @@ function render_posts_section() {
                 if (data.success) {
                     location.reload();
                 } else {
-                    alert('Wystąpił błąd: ' + data.data);
+                    const msg = data.message || data.data || 'Nieznany błąd';
+                    alert('Wystąpił błąd: ' + msg);
                 }
             })
             .catch(error => {
