@@ -43,9 +43,17 @@ function cd_ajax_bulk_posts() {
 
     cd_check_permission_or_die();
 
-    // Keep compatibility with the template token scheme (simple check)
-    if (!isset($_POST['token']) || $_POST['token'] !== 'bulk_posts_token_123') {
-        wp_send_json_error('Nieprawidłowy token bezpieczeństwa');
+    // Prefer WP nonce verification
+    if (isset($_POST['security']) && function_exists('check_ajax_referer')) {
+        // check_ajax_referer will die on failure by default; we pass false to return instead
+        if (!check_ajax_referer('cd_posts_nonce', 'security', false)) {
+            wp_send_json_error('Nieprawidłowy nonce bezpieczeństwa', 403);
+        }
+    } else {
+        // Legacy token fallback
+        if (!isset($_POST['token']) || $_POST['token'] !== 'bulk_posts_token_123') {
+            wp_send_json_error('Nieprawidłowy token bezpieczeństwa');
+        }
     }
 
     $user_id = cd_current_user_id_fallback();
@@ -90,8 +98,14 @@ function cd_ajax_quick_post() {
 
     cd_check_permission_or_die();
 
-    if (!isset($_POST['token']) || $_POST['token'] !== 'quick_post_token_123') {
-        wp_send_json_error('Nieprawidłowy token bezpieczeństwa');
+    if (isset($_POST['security']) && function_exists('check_ajax_referer')) {
+        if (!check_ajax_referer('cd_posts_nonce', 'security', false)) {
+            wp_send_json_error('Nieprawidłowy nonce bezpieczeństwa', 403);
+        }
+    } else {
+        if (!isset($_POST['token']) || $_POST['token'] !== 'quick_post_token_123') {
+            wp_send_json_error('Nieprawidłowy token bezpieczeństwa');
+        }
     }
 
     $user_id = cd_current_user_id_fallback();

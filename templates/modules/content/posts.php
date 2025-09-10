@@ -10,25 +10,15 @@ if (!defined('ABSPATH')) exit;
  * Funkcja renderująca sekcję posts z pełną funkcjonalnością
  */
 function render_posts_section() {
-    // Uruchom sesję jeśli nie jest uruchomiona
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    // DEBUG: Ustaw domyślne wartości sesji dla testowania
-    if (!isset($_SESSION['user_id'])) {
-        $_SESSION['user_id'] = 1; // Domyślny użytkownik
-        error_log("DEBUG: Set default user_id to 1");
-    }
-    if (!isset($_SESSION['user_role'])) {
-        $_SESSION['user_role'] = 'administrator'; // Domyślna rola
-        error_log("DEBUG: Set default user_role to administrator");
-    }
-
-    // Proste sprawdzenie uprawnień (w rzeczywistym systemie użyj lepszej logiki)
-    $user_role = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : 'klient';
-    if ($user_role !== 'klient' && $user_role !== 'administrator') {
-        return;
+    // Prefer WP auth: require user capability 'klient' or 'administrator'
+    if (!function_exists('current_user_can') || (!current_user_can('klient') && !current_user_can('administrator'))) {
+        // If session-based fallback is present, try to use it, otherwise deny
+        if (session_status() == PHP_SESSION_NONE) {
+            // don't start a session here to avoid headers issues
+        }
+        // Try session fallback
+        $ses_user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
+        if (!$ses_user_id) return;
     }
 
     // Pobierz parametry z URL lub ustaw domyślne
@@ -40,8 +30,12 @@ function render_posts_section() {
     $orderby = isset($_GET['orderby']) ? trim($_GET['orderby']) : 'date';
     $order = isset($_GET['order']) ? trim($_GET['order']) : 'DESC';
 
-    // Pobierz ID użytkownika z sesji
-    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
+    // Pobierz ID użytkownika z WP lub fallback do sesji
+    if (function_exists('get_current_user_id')) {
+        $user_id = get_current_user_id();
+    } else {
+        $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
+    }
 
     // Przygotuj argumenty dla bezpośredniego zapytania SQL
     $args = array(
@@ -117,7 +111,8 @@ function render_posts_section() {
     $term_taxonomy = $prefix . 'term_taxonomy';
     $terms = $prefix . 'terms';
 
-    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
+    // ensure $user_id is integer
+    $user_id = intval($user_id);
 
     // DEBUG: Testuj proste zapytanie bez filtrów
     $simple_posts = $wpdb->get_results("SELECT ID, post_title, post_author FROM $posts_table WHERE post_type = 'post' LIMIT 5");
@@ -243,6 +238,8 @@ function render_posts_section() {
          WHERE tt.taxonomy = 'category'
          ORDER BY t.name ASC"
     );
+    // Prepare a WP nonce for secure AJAX requests
+    $ajax_nonce = function_exists('wp_create_nonce') ? wp_create_nonce('cd_posts_nonce') : '';
     ?>
     <section id="posts" class="animate-fadeIn">
         <div class="card hover-lift">
@@ -838,7 +835,8 @@ function render_posts_section() {
             formData.append('action', 'bulk_posts');
             formData.append('bulk_action', action);
             formData.append('post_ids', JSON.stringify(postIds));
-            formData.append('token', 'bulk_posts_token_123');
+            // attach WP nonce if available, otherwise keep legacy token for fallback
+            formData.append('security', '<?php echo esc_js($ajax_nonce); ?>');
 
             fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
@@ -881,7 +879,8 @@ function render_posts_section() {
             formData.append('action', 'quick_post');
             formData.append('quick_action', action);
             formData.append('post_id', postId);
-            formData.append('token', 'quick_post_token_123');
+            // attach WP nonce if available
+            formData.append('security', '<?php echo esc_js($ajax_nonce); ?>');
 
             fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
