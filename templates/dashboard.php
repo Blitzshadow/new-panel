@@ -13,7 +13,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Personalizacja <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-personalization" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-personalization">
                         <li><a href="#branding" class="sidebar-link">Branding klienta</a></li>
                         <li><a href="#dashboard-widgets" class="sidebar-link">Widżety na dashboard</a></li>
                         <li><a href="#dashboard-layout" class="sidebar-link">Drag & drop układu</a></li>
@@ -28,7 +28,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 6h8M8 10h8M8 14h6"/></svg>
                         Wpisy <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-posts" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-posts">
                         <li><a href="#posts-list" class="sidebar-link">Lista wpisów</a></li>
                         <li><a href="#add-post" class="sidebar-link">Dodaj wpis</a></li>
                         <li><a href="#edit-post" class="sidebar-link">Edycja / publikacja / draft</a></li>
@@ -41,7 +41,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
                         Strony <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-pages" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-pages">
                         <li><a href="#pages-list" class="sidebar-link">Lista stron</a></li>
                         <li><a href="#add-page" class="sidebar-link">Dodaj stronę</a></li>
                         <li><a href="#edit-page" class="sidebar-link">Edycja stron</a></li>
@@ -53,7 +53,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                         Media <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-media" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-media">
                         <li><a href="#media-library" class="sidebar-link">Biblioteka mediów</a></li>
                         <li><a href="#add-media" class="sidebar-link">Dodaj plik</a></li>
                         <li><a href="#edit-media" class="sidebar-link">Edycja plików</a></li>
@@ -68,7 +68,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 17v-6h6v6m-6 0h6"/></svg>
                         Zamówienia <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-orders" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-orders">
                         <li><a href="#orders-list" class="sidebar-link">Lista zamówień</a></li>
                         <li><a href="#order-details" class="sidebar-link">Szczegóły zamówienia</a></li>
                         <li><a href="#order-status" class="sidebar-link">Statusy zamówień</a></li>
@@ -80,7 +80,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
                         Produkty <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-products" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-products">
                         <li><a href="#products-list" class="sidebar-link">Lista produktów</a></li>
                         <li><a href="#add-product" class="sidebar-link">Dodaj produkt</a></li>
                         <li><a href="#edit-product" class="sidebar-link">Edycja produktu</a></li>
@@ -93,7 +93,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7v10"/></svg>
                         Kupony / Promocje <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-coupons" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-coupons">
                         <li><a href="#coupons-list" class="sidebar-link">Lista kuponów</a></li>
                         <li><a href="#add-coupon" class="sidebar-link">Tworzenie kuponu</a></li>
                         <li><a href="#edit-coupon" class="sidebar-link">Edycja kuponu</a></li>
@@ -108,7 +108,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 13l3 3 7-7"/></svg>
                         Raporty i analityka <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-reports" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-reports">
                         <li><a href="#sales-daily" class="sidebar-link">Sprzedaż dzienna</a></li>
                         <li><a href="#sales-monthly" class="sidebar-link">Sprzedaż miesięczna</a></li>
                         <li><a href="#sales-yearly" class="sidebar-link">Sprzedaż roczna</a></li>
@@ -125,7 +125,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                         Klienci i Użytkownicy <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-customers" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-customers">
                         <li><a href="#customers-list" class="sidebar-link">Lista klientów / użytkowników</a></li>
                         <li><a href="#edit-user" class="sidebar-link">Edycja profilu użytkownika</a></li>
                         <li><a href="#roles" class="sidebar-link">Role i uprawnienia</a></li>
@@ -141,7 +141,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Formularze i Kontakty <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-forms" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-forms">
                         <li><a href="#contact-form" class="sidebar-link">Formularz kontaktowy</a></li>
                         <li><a href="#contact-history" class="sidebar-link">Historia zgłoszeń</a></li>
                         <li><a href="#report-problem" class="sidebar-link">Zgłoś problem</a></li>
@@ -156,7 +156,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                         Ustawienia strony <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-settings" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-settings">
                         <li><a href="#site-data" class="sidebar-link">Dane strony</a></li>
                         <li><a href="#seo" class="sidebar-link">SEO</a></li>
                         <li><a href="#integrations" class="sidebar-link">Integracje</a></li>
@@ -169,7 +169,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Integracje i dodatki <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-integrations" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-integrations">
                         <li><a href="#api" class="sidebar-link">API / Webhooks</a></li>
                         <li><a href="#dropshipping" class="sidebar-link">Integracje dropshipping</a></li>
                         <li><a href="#sync" class="sidebar-link">Synchronizacja stanów</a></li>
@@ -184,7 +184,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                         Profil użytkownika <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-profile" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-profile">
                         <li><a href="#edit-profile" class="sidebar-link">Edycja danych</a></li>
                         <li><a href="#notification-preferences" class="sidebar-link">Preferencje powiadomień</a></li>
                         <li><a href="#login-history" class="sidebar-link">Historia logowań</a></li>
@@ -199,7 +199,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                         Dokumentacja / FAQ <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-help" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-help">
                         <li><a href="#video-tutorials" class="sidebar-link">Video tutoriale</a></li>
                         <li><a href="#live-chat" class="sidebar-link">Live chat / ticket</a></li>
                         <li><a href="#screenshots" class="sidebar-link">Przesyłanie screenów</a></li>
@@ -213,7 +213,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Zaawansowane <span class="ml-auto">&#9662;</span>
                     </a>
-                    <ul class="sidebar-submenu" id="submenu-advanced" style="display:none;">
+                    <ul class="sidebar-submenu" id="submenu-advanced">
                         <li><a href="#wp-admin" class="sidebar-link">Dostęp do WP Admin</a></li>
                         <li><a href="#plugins-themes" class="sidebar-link">Wtyczki i motywy</a></li>
                         <li><a href="#custom-css" class="sidebar-link">Custom CSS</a></li>
