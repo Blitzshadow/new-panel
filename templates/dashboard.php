@@ -45,7 +45,7 @@
                         <li><a href="#pages-list" class="sidebar-link">Lista stron</a></li>
                         <li><a href="#add-page" class="sidebar-link">Dodaj stronę</a></li>
                         <li><a href="#edit-page" class="sidebar-link">Edycja stron</a></li>
-                        <li><a href="#templates" class="sidebar-link">Szablony stron</a></li>
+                        <li><a href="#page-templates" class="sidebar-link">Szablony stron</a></li>
                     </ul>
                 </li>
                 <li>
@@ -173,7 +173,7 @@
                         <li><a href="#api" class="sidebar-link">API / Webhooks</a></li>
                         <li><a href="#dropshipping" class="sidebar-link">Integracje dropshipping</a></li>
                         <li><a href="#sync" class="sidebar-link">Synchronizacja stanów</a></li>
-                        <li><a href="#templates" class="sidebar-link">Szablony branżowe</a></li>
+                        <li><a href="#industry-templates" class="sidebar-link">Szablony branżowe</a></li>
                     </ul>
                 </li>
 
@@ -349,9 +349,9 @@
                 <p>Edycja istniejącej strony.</p>
             </div>
         </section>
-        <section id="templates" class="widget">
+        <section id="page-templates" class="widget">
             <h3 class="text-xl font-bold mb-4">Szablony stron</h3>
-            <div id="templates-content">
+            <div id="page-templates-content">
                 <p>Zarządzaj szablonami stron.</p>
             </div>
         </section>
@@ -668,9 +668,9 @@
                 <p>Synchronizacja stanów magazynowych.</p>
             </div>
         </section>
-        <section id="templates" class="widget">
+        <section id="industry-templates" class="widget">
             <h3 class="text-xl font-bold mb-4">Szablony branżowe</h3>
-            <div id="templates-content">
+            <div id="industry-templates-content">
                 <p>Zarządzaj szablonami branżowymi.</p>
             </div>
         </section>

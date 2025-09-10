@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Funkcja do pokazywania sekcji
+    function showSection(sectionId) {
+        // Ukryj wszystkie sekcje
+        document.querySelectorAll('main > section').forEach(sec => {
+            sec.style.display = 'none';
+        });
+
+        // Pokaż wybraną sekcję
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.style.display = 'block';
+        }
+    }
+
     // Przełączanie sekcji dla wszystkich linków sidebar
     document.querySelectorAll('aside nav a').forEach(link => {
         link.addEventListener('click', e => {
@@ -16,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
     // Sidebar: rozwijanie/zamykanie podmenu
     document.querySelectorAll('.sidebar-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
@@ -33,22 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
     // Domyślnie pokaż powitanie
     showSection('welcome');
-
-    // Funkcja do pokazywania sekcji
-    function showSection(sectionId) {
-        // Ukryj wszystkie sekcje
-        document.querySelectorAll('main > section').forEach(sec => {
-            sec.style.display = 'none';
-        });
-
-        // Pokaż wybraną sekcję
-        const targetSection = document.getElementById(sectionId);
-        if (targetSection) {
-            targetSection.style.display = 'block';
-        }
-    }
 
     // Przykład toast powiadomienia
     window.showToast = function(msg, type = 'info') {
