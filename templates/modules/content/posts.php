@@ -263,6 +263,14 @@ function render_posts_section() {
             $total_posts = 0;
         } else {
             $posts = $wpdb->get_results($posts_query_sql);
+            // DEBUG: Log the actual query results
+            error_log("DEBUG: Main query executed: " . $posts_query_sql);
+            error_log("DEBUG: Main query returned " . count($posts) . " posts");
+            if (!empty($posts)) {
+                error_log("DEBUG: First post: " . print_r($posts[0], true));
+            } else {
+                error_log("DEBUG: Main query returned empty results!");
+            }
         }
     }
 
@@ -272,6 +280,20 @@ function render_posts_section() {
     error_log("DEBUG: User ID: " . $user_id);
     error_log("DEBUG: Table prefix: " . $prefix);
     error_log("DEBUG: SQL Query: " . $posts_query_sql);
+
+    // Add visible debug output
+    echo '<div style="background:#ff6b35;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
+    echo 'QUERY EXECUTION DEBUG:<br>';
+    echo 'Total posts from COUNT query: ' . intval($total_posts) . '<br>';
+    echo 'Posts from main SELECT query: ' . count($posts) . '<br>';
+    echo 'User ID: ' . intval($user_id) . '<br>';
+    echo 'SQL: ' . htmlspecialchars(substr($posts_query_sql, 0, 200)) . '...<br>';
+    if (!empty($posts)) {
+        echo 'First post: ' . htmlspecialchars($posts[0]->post_title) . ' (ID: ' . intval($posts[0]->ID) . ')';
+    } else {
+        echo 'NO POSTS RETURNED FROM MAIN QUERY!';
+    }
+    echo '</div>';
 
     // Symuluj obiekt WP_Query dla kompatybilności z resztą kodu
     $posts_query = new stdClass();
@@ -508,6 +530,20 @@ function render_posts_section() {
                                     $posts_query->max_num_pages = 1;
                                     $using_fallback = true;
                                 }
+
+                                // DEBUG: Show main query results
+                                echo '<tr><td colspan="8" class="px-6 py-4 bg-blue-900 text-white">';
+                                echo '<strong>MAIN QUERY DEBUG:</strong><br>';
+                                echo 'posts_query->posts count: ' . count($posts_query->posts) . '<br>';
+                                echo 'total_posts: ' . intval($total_posts) . '<br>';
+                                echo 'fallback_posts count: ' . count($fallback_posts) . '<br>';
+                                echo 'using_fallback: ' . ($using_fallback ? 'YES' : 'NO') . '<br>';
+                                if (!empty($posts)) {
+                                    echo 'First post in $posts: ID=' . intval($posts[0]->ID) . ', Title=' . htmlspecialchars($posts[0]->post_title) . '<br>';
+                                } else {
+                                    echo '$posts array is EMPTY!<br>';
+                                }
+                                echo '</td></tr>';
 
                                 // Developer toggle: force debug display and show DB errors. Use ?force_posts_debug=1 in URL.
                                 if (isset($_GET['force_posts_debug']) && $_GET['force_posts_debug'] === '1') {
