@@ -36,13 +36,14 @@ function client_dashboard_create_page() {
 // Wyświetlanie panelu na stronie /panel
 
 // Wyświetlanie panelu klienta na stronie /panel w trybie fullscreen (bez motywu WP)
+
+// Wymuszenie dedykowanego szablonu fullscreen dla /panel
 add_filter('template_include', function($template) {
     if (is_page('panel')) {
         if (!is_user_logged_in() || !(current_user_can('klient') || current_user_can('administrator'))) {
             wp_die('<div class="bg-red-600 text-white p-4 rounded">Brak dostępu do panelu klienta.</div>');
         }
-        client_dashboard_enqueue_assets();
-        return plugin_dir_path(__FILE__).'templates/dashboard.php';
+        return plugin_dir_path(__FILE__).'templates/dashboard-fullscreen.php';
     }
     return $template;
 });
