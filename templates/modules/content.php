@@ -5,9 +5,7 @@
  */
 
 // Ładowanie podmodułów content
-require_once __DIR__ . '/content/posts.php';
-require_once __DIR__ . '/content/pages.php';
-require_once __DIR__ . '/content/media.php';
+require_once __DIR__ . '/posts.php';
 
 /**
  * Funkcja renderująca sekcję content (placeholder)

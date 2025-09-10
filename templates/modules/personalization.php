@@ -5,10 +5,10 @@
  */
 
 // Ładowanie podmodułów personalizacji
-require_once __DIR__ . '/personalization/branding.php';
-require_once __DIR__ . '/personalization/dashboard-widgets.php';
-require_once __DIR__ . '/personalization/dashboard-layout.php';
-require_once __DIR__ . '/personalization/shortcuts.php';
+require_once __DIR__ . '/branding.php';
+require_once __DIR__ . '/dashboard-widgets.php';
+require_once __DIR__ . '/dashboard-layout.php';
+require_once __DIR__ . '/shortcuts.php';
 
 /**
  * Funkcja renderująca główną sekcję personalizacji

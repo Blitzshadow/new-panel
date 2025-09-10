@@ -4,13 +4,9 @@
  * Ładuje wszystkie moduły i zarządza strukturą dashboard
  */
 
-// Ładowanie modułów - tylko jeśli pliki istnieją
-if (file_exists(__DIR__ . '/modules/personalization.php')) {
-    require_once __DIR__ . '/modules/personalization.php';
-}
-if (file_exists(__DIR__ . '/modules/content.php')) {
-    require_once __DIR__ . '/modules/content.php';
-}
+// Ładowanie modułów
+require_once __DIR__ . '/modules/personalization.php';
+require_once __DIR__ . '/modules/content.php';
 ?>
 
 <div id="client-dashboard" class="min-h-screen font-display" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
@@ -301,27 +297,15 @@ if (file_exists(__DIR__ . '/modules/content.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
-        // Renderuj sekcje personalizacji - tylko jeśli funkcje istnieją
-        if (function_exists('render_personalization_section')) {
-            render_personalization_section();
-        }
-        if (function_exists('render_branding_section')) {
-            render_branding_section();
-        }
-        if (function_exists('render_dashboard_widgets_section')) {
-            render_dashboard_widgets_section();
-        }
-        if (function_exists('render_dashboard_layout_section')) {
-            render_dashboard_layout_section();
-        }
-        if (function_exists('render_shortcuts_section')) {
-            render_shortcuts_section();
-        }
+        // Renderuj sekcje personalizacji
+        render_personalization_section();
+        render_branding_section();
+        render_dashboard_widgets_section();
+        render_dashboard_layout_section();
+        render_shortcuts_section();
 
         // Renderuj sekcje content
-        if (function_exists('render_posts_section')) {
-            render_posts_section();
-        }
+        render_posts_section();
         ?>
     </main>
 </div>
