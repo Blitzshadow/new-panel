@@ -428,7 +428,25 @@ function render_posts_section() {
                                 </td>
                             </tr>
 
+                            <?php
+                                // If the main prepared query returned no posts, but our fallback (no-filters) query found rows,
+                                // use the fallback rows to display something for debugging.
+                                $using_fallback = false;
+                                if (empty($posts_query->posts) && !empty($fallback_posts)) {
+                                    $posts_query->posts = $fallback_posts;
+                                    $posts_query->found_posts = count($fallback_posts);
+                                    $posts_query->max_num_pages = 1;
+                                    $using_fallback = true;
+                                }
+                            ?>
                             <?php if (!empty($posts_query->posts)): ?>
+                                <?php if ($using_fallback): ?>
+                                    <tr>
+                                        <td colspan="8" class="px-6 py-4 bg-yellow-800 text-yellow-100">
+                                            Pokazywane są wpisy z fallbacku (bez filtrów) — główne zapytanie nie zwróciło wyników.
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                                 <?php foreach ($posts_query->posts as $post): ?>
                                     <?php
                                     $post_id = $post->ID;
