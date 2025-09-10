@@ -444,6 +444,28 @@ function render_posts_section() {
                                     $posts_query->max_num_pages = 1;
                                     $using_fallback = true;
                                 }
+
+                                // Developer toggle: force debug display and show DB errors. Use ?force_posts_debug=1 in URL.
+                                if (isset($_GET['force_posts_debug']) && $_GET['force_posts_debug'] === '1') {
+                                    $dbg_count = count($posts_query->posts);
+                                    $dbg_total = intval($total_posts);
+                                    $dbg_sql = isset($posts_query_sql) ? $posts_query_sql : '(none)';
+                                    $dbg_err = isset($wpdb) ? $wpdb->last_error : '(no wpdb)';
+                                    echo '<tr><td colspan="8" class="px-6 py-4 bg-red-900 text-white">'
+                                        . '<strong>FORCE DEBUG ON:</strong> posts_count=' . intval($dbg_count)
+                                        . '; total_posts=' . intval($dbg_total)
+                                        . '; wpdb_last_error=' . htmlspecialchars($dbg_err)
+                                        . '<br><strong>Executed SQL:</strong> ' . htmlspecialchars($dbg_sql)
+                                        . '</td></tr>';
+
+                                    // If we have fallback rows, force-assign them so something is visible
+                                    if (!empty($fallback_posts)) {
+                                        $posts_query->posts = $fallback_posts;
+                                        $posts_query->found_posts = count($fallback_posts);
+                                        $posts_query->max_num_pages = 1;
+                                        $using_fallback = true;
+                                    }
+                                }
                             ?>
                             <?php if (!empty($posts_query->posts)): ?>
                                 <?php if ($using_fallback): ?>
