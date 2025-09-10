@@ -6,26 +6,62 @@
 
 if (!defined('ABSPATH')) exit;
 
+// DEBUG: Check if file is being loaded
+echo '<div style="background:#ff6b6b;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
+echo 'DEBUG: posts.php file loaded successfully!';
+echo '</div>';
+
 /**
  * Funkcja renderująca sekcję posts z pełną funkcjonalnością
  */
 function render_posts_section() {
-    // Simplified auth: for development/testing, allow access
-    // In production, implement proper authentication here
-    $allowed = true;
-    
-    // Try to get user from WordPress
-    if (function_exists('is_user_logged_in') && is_user_logged_in() && function_exists('get_current_user_id')) {
-        $user_id = get_current_user_id();
-    } else {
-        // Fallback: use session or set to test user ID
-        $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 1;
-    }
+    // BASIC DEBUG: Check if function is being called at all
+    echo '<div style="background:#ff6b6b;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
+    echo 'DEBUG: render_posts_section() function called successfully!';
+    echo '</div>';
 
-    if (!$allowed) {
-        echo '<div class="p-4 bg-yellow-900 text-yellow-100 rounded">Dostęp do listy wpisów wymaga zalogowania się. Zaloguj się, aby zobaczyć wpisy.</div>';
+    // Check database connection
+    global $wpdb;
+    if (!$wpdb) {
+        echo '<div style="background:#ff4757;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
+        echo 'ERROR: No database connection ($wpdb is null)';
+        echo '</div>';
         return;
     }
+
+    // Check table prefix
+    $prefix = $wpdb->prefix;
+    echo '<div style="background:#3742fa;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
+    echo 'DEBUG: Table prefix detected: ' . htmlspecialchars($prefix);
+    echo '</div>';
+
+    // Check if posts table exists
+    $posts_table = $prefix . 'posts';
+    $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$posts_table'");
+    echo '<div style="background:#2f3542;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
+    echo 'DEBUG: Posts table ' . htmlspecialchars($posts_table) . ' exists: ' . ($table_exists ? 'YES' : 'NO');
+    echo '</div>';
+
+    // Try a simple query to test database access
+    try {
+        $test_posts = $wpdb->get_results("SELECT ID, post_title FROM $posts_table WHERE post_type = 'post' LIMIT 3");
+        echo '<div style="background:#ffa502;color:#000;padding:10px;margin:10px;border-radius:5px;">';
+        echo 'DEBUG: Simple query test - Found ' . count($test_posts) . ' posts:';
+        if (!empty($test_posts)) {
+            echo '<ul>';
+            foreach ($test_posts as $post) {
+                echo '<li>ID: ' . intval($post->ID) . ' - Title: ' . htmlspecialchars($post->post_title) . '</li>';
+            }
+            echo '</ul>';
+        }
+        echo '</div>';
+    } catch (Exception $e) {
+        echo '<div style="background:#ff3838;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
+        echo 'ERROR: Database query failed: ' . htmlspecialchars($e->getMessage());
+        echo '</div>';
+    }
+
+    // Continue with normal function logic...
 
     // Pobierz parametry z URL lub ustaw domyślne
     $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
