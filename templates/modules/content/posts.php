@@ -11,6 +11,10 @@ echo '<div style="background:#ff6b6b;color:#fff;padding:10px;margin:10px;border-
 echo 'DEBUG: posts.php file loaded successfully!';
 echo '</div>';
 
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 /**
  * Funkcja renderująca sekcję posts z pełną funkcjonalnością
  */
