@@ -34,7 +34,7 @@ function render_personalization_section() {
                     <div class="stat-card hover-lift">
                         <div class="flex items-center justify-between mb-4">
                             <div class="p-3 bg-gradient-primary rounded-modern">
-                                <svg class="w-4 h-4 text-white" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-white flex-shrink-0" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"/>
                                 </svg>
                             </div>
@@ -47,7 +47,7 @@ function render_personalization_section() {
                     <div class="stat-card hover-lift">
                         <div class="flex items-center justify-between mb-4">
                             <div class="p-3 bg-gradient-secondary rounded-modern">
-                                <svg class="w-4 h-4 text-white" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-white flex-shrink-0" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                                 </svg>
                             </div>
@@ -60,7 +60,7 @@ function render_personalization_section() {
                     <div class="stat-card hover-lift">
                         <div class="flex items-center justify-between mb-4">
                             <div class="p-3 bg-gradient-warning rounded-modern">
-                                <svg class="w-4 h-4 text-white" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-white flex-shrink-0" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
                             </div>

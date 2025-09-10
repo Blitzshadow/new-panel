@@ -28,7 +28,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <li class="sidebar-section">Personalizacja</li>
                 <li>
                     <a href="#personalization" class="sidebar-link sidebar-toggle" data-toggle="submenu-personalization">
-                        <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <svg class="w-4 h-4 flex-shrink-0" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128.75.75 0 01-1.5 0 4.5 4.5 0 018.4-2.409c-.26.201-.542.388-.832.58a1.5 1.5 0 01-1.78-.124z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 8.25a2.25 2.25 0 012.25 2.25c0 1.012-.442 1.915-1.125 2.52a.75.75 0 01-1.005-.933 3.75 3.75 0 00.627-2.087 3.75 3.75 0 00-3.75-3.75.75.75 0 01-.75-.75z"/>
                         </svg>
