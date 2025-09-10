@@ -400,8 +400,29 @@ function render_posts_section() {
                                     All posts in DB: <?php echo $all_posts_count; ?><br>
                                     User posts in DB: <?php echo $user_posts_count; ?><br>
                                     Simple query results: <?php echo count($simple_posts); ?><br>
+                                    <?php
+                                    // Temporary fallback debug: fetch a few posts without filters to verify DB/table/prefix
+                                    $fallback_posts = array();
+                                    try {
+                                        $fallback_posts = $wpdb->get_results("SELECT ID, post_title, post_status, post_author FROM $posts_table WHERE post_type = 'post' LIMIT 10");
+                                    } catch (Exception $e) {
+                                        error_log('DEBUG: Fallback query failed: ' . $e->getMessage());
+                                    }
+                                    ?>
+                                    Fallback posts (no filters): <?php echo count($fallback_posts); ?><br>
+                                    <?php if (!empty($fallback_posts)): ?>
+                                        <ul class="text-sm list-disc pl-6">
+                                            <?php foreach ($fallback_posts as $fp): ?>
+                                                <li><?php echo htmlspecialchars($fp->post_title ?: '(brak tytułu)') ; ?> (ID: <?php echo intval($fp->ID); ?>, status: <?php echo htmlspecialchars($fp->post_status); ?>)</li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
                                     <?php if (!empty($simple_posts)): ?>
                                         First post: <?php echo htmlspecialchars($simple_posts[0]->post_title); ?> (ID: <?php echo $simple_posts[0]->ID; ?>)<br>
+                                    <?php endif; ?>
+                                    <!-- Show the final posts query used (prepared SQL) -->
+                                    <?php if (isset($posts_query_sql)): ?>
+                                        <strong>Executed SQL:</strong> <?php echo htmlspecialchars($posts_query_sql); ?><br>
                                     <?php endif; ?>
                                     Session user_id: <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'; ?>
                                 </td>
