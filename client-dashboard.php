@@ -34,16 +34,17 @@ function client_dashboard_create_page() {
 }
 
 // Wyświetlanie panelu na stronie /panel
-add_action('template_redirect', function() {
+
+// Wyświetlanie panelu klienta na stronie /panel w trybie fullscreen (bez motywu WP)
+add_filter('template_include', function($template) {
     if (is_page('panel')) {
         if (!is_user_logged_in() || !(current_user_can('klient') || current_user_can('administrator'))) {
             wp_die('<div class="bg-red-600 text-white p-4 rounded">Brak dostępu do panelu klienta.</div>');
         }
         client_dashboard_enqueue_assets();
-        status_header(200);
-        include plugin_dir_path(__FILE__).'templates/dashboard.php';
-        exit;
+        return plugin_dir_path(__FILE__).'templates/dashboard.php';
     }
+    return $template;
 });
 
 // REST API/AJAX endpointy do obsługi sekcji (zamówienia, produkty, wpisy, kupony, raporty, kontakt, zgłoszenia)
