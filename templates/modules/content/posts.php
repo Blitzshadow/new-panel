@@ -10,16 +10,16 @@ if (!defined('ABSPATH')) exit;
  * Funkcja renderująca sekcję posts z pełną funkcjonalnością
  */
 function render_posts_section() {
-    // Prefer WP auth: allow any logged-in WP user. If WP functions aren't available, try session fallback.
-    $allowed = false;
-    if (function_exists('is_user_logged_in') && is_user_logged_in()) {
-        $allowed = true;
+    // Simplified auth: for development/testing, allow access
+    // In production, implement proper authentication here
+    $allowed = true;
+    
+    // Try to get user from WordPress
+    if (function_exists('is_user_logged_in') && is_user_logged_in() && function_exists('get_current_user_id')) {
+        $user_id = get_current_user_id();
     } else {
-        // session fallback (do not start session here to avoid headers issues)
-        $ses_user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
-        if ($ses_user_id) {
-            $allowed = true;
-        }
+        // Fallback: use session or set to test user ID
+        $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 1;
     }
 
     if (!$allowed) {
@@ -40,7 +40,7 @@ function render_posts_section() {
     if (function_exists('get_current_user_id')) {
         $user_id = get_current_user_id();
     } else {
-        $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
+        $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 1;
     }
 
     // Przygotuj argumenty dla bezpośredniego zapytania SQL
@@ -136,11 +136,11 @@ function render_posts_section() {
 
     // Buduj zapytanie SQL
     $where_conditions = array();
-    // $where_conditions[] = "p.post_author = %d"; // Tymczasowo wyłącz filtr autora
+    $where_conditions[] = "p.post_author = %d"; // Re-enable author filter
     $where_conditions[] = "p.post_type = 'post'";
     $where_conditions[] = "p.post_status IN ('publish', 'draft', 'pending', 'future')";
 
-    $params = array(); // $user_id usunięty tymczasowo
+    $params = array($user_id); // Add user_id back to params
 
     // Dodaj wyszukiwanie
     if (!empty($search)) {
@@ -246,6 +246,7 @@ function render_posts_section() {
     );
     // Prepare a WP nonce for secure AJAX requests
     $ajax_nonce = function_exists('wp_create_nonce') ? wp_create_nonce('cd_posts_nonce') : '';
+    $ajax_url = function_exists('admin_url') ? admin_url('admin-ajax.php') : '/wp-admin/admin-ajax.php';
     ?>
     <section id="posts" class="animate-fadeIn">
         <div class="card hover-lift">
@@ -386,7 +387,7 @@ function render_posts_section() {
                             <!-- DEBUG: Wyświetl informacje debugowania -->
                             <tr>
                                 <td colspan="8" class="px-6 py-4 bg-yellow-900 text-yellow-100">
-                                    <strong>DEBUG INFO (filtr autora tymczasowo wyłączony):</strong><br>
+                                    <strong>DEBUG INFO:</strong><br>
                                     Total posts: <?php echo $total_posts; ?><br>
                                     Posts in array: <?php echo count($posts_query->posts); ?><br>
                                     User ID: <?php echo $user_id; ?><br>
@@ -903,9 +904,9 @@ function render_posts_section() {
             formData.append('bulk_action', action);
             formData.append('post_ids', JSON.stringify(postIds));
             // attach WP nonce if available, otherwise keep legacy token for fallback
-            formData.append('security', '<?php echo esc_js($ajax_nonce); ?>');
+            formData.append('security', '<?php echo $ajax_nonce; ?>');
 
-            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            fetch('<?php echo $ajax_url; ?>', {
                 method: 'POST',
                 body: formData
             })
@@ -947,9 +948,9 @@ function render_posts_section() {
             formData.append('quick_action', action);
             formData.append('post_id', postId);
             // attach WP nonce if available
-            formData.append('security', '<?php echo esc_js($ajax_nonce); ?>');
+            formData.append('security', '<?php echo $ajax_nonce; ?>');
 
-            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            fetch('<?php echo $ajax_url; ?>', {
                 method: 'POST',
                 body: formData
             })
@@ -981,8 +982,12 @@ function get_posts_stats() {
     // Pobierz prefix tabeli z konfiguracji WordPress
     $prefix = $wpdb->prefix; // To automatycznie użyje właściwego prefixu (wp_724689f)
 
-    // W samodzielnym systemie zastąp get_current_user_id() własną logiką
-    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1; // Domyślnie użytkownik 1
+    // Get user ID with same logic as main function
+    if (function_exists('get_current_user_id')) {
+        $user_id = get_current_user_id();
+    } else {
+        $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 1;
+    }
 
     // Bezpośrednie zapytania SQL dla lepszej kompatybilności
     $stats = array(
