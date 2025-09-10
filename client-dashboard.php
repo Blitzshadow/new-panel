@@ -86,6 +86,11 @@ if (file_exists(__DIR__ . '/inc/rest-endpoints.php')) {
     require_once __DIR__ . '/inc/rest-endpoints.php';
 }
 
+// WP AJAX handlers for posts actions
+if (file_exists(__DIR__ . '/inc/ajax-handlers.php')) {
+    require_once __DIR__ . '/inc/ajax-handlers.php';
+}
+
 // Obsługa powiadomień systemowych
 if (file_exists(__DIR__ . '/inc/notifications.php')) {
     require_once __DIR__ . '/inc/notifications.php';

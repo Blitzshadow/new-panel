@@ -840,7 +840,7 @@ function render_posts_section() {
             formData.append('post_ids', JSON.stringify(postIds));
             formData.append('token', 'bulk_posts_token_123');
 
-            fetch('<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', {
+            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
                 body: formData
             })
@@ -883,7 +883,7 @@ function render_posts_section() {
             formData.append('post_id', postId);
             formData.append('token', 'quick_post_token_123');
 
-            fetch('<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', {
+            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
                 body: formData
             })
