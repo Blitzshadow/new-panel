@@ -436,6 +436,12 @@ function render_posts_section() {
 
                 <!-- Tabela wpisów (desktop) -->
                 <div class="hidden lg:block overflow-x-auto">
+                    <?php 
+                    // DEBUG: Show table rendering
+                    echo '<div style="background:#ff4757;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
+                    echo 'DEBUG: TABLE STRUCTURE - About to render posts table';
+                    echo '</div>';
+                    ?>
                     <table class="w-full text-sm text-left text-gray-300">
                         <thead class="text-xs text-gray-400 uppercase bg-gray-800">
                             <tr>
@@ -575,7 +581,22 @@ function render_posts_section() {
                                         </td>
                                     </tr>
                                 <?php endif; ?>
+                                <?php 
+                                // DEBUG: Show that we're entering the posts loop
+                                echo '<tr><td colspan="8" class="px-6 py-4 bg-green-900 text-white">';
+                                echo '<strong>ENTERING POSTS LOOP:</strong> Found ' . count($posts_query->posts) . ' posts to display';
+                                echo '</td></tr>';
+                                
+                                $loop_counter = 0;
+                                ?>
                                 <?php foreach ($posts_query->posts as $post): ?>
+                                    <?php 
+                                    $loop_counter++;
+                                    // DEBUG: Show each post being processed
+                                    echo '<tr><td colspan="8" class="px-6 py-4 bg-purple-900 text-white">';
+                                    echo '<strong>PROCESSING POST #' . $loop_counter . ':</strong> ID=' . intval($post->ID) . ', Title=' . htmlspecialchars($post->post_title);
+                                    echo '</td></tr>';
+                                    ?>
                                     <?php
                                     $post_id = $post->ID;
                                     $post_status = $post->post_status;
@@ -672,6 +693,12 @@ function render_posts_section() {
                                         <p class="text-sm">Rozpocznij od dodania pierwszego wpisu</p>
                                     </td>
                                 </tr>
+                                <?php 
+                                // DEBUG: Show that we reached the "no posts" section
+                                echo '<tr><td colspan="8" class="px-6 py-4 bg-red-900 text-white">';
+                                echo '<strong>DEBUG: REACHED NO POSTS SECTION</strong> - This means the posts loop was not executed!';
+                                echo '</td></tr>';
+                                ?>
                             <?php endif; ?>
                         </tbody>
                     </table>
