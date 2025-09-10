@@ -4,13 +4,18 @@
  * Ładuje wszystkie moduły i zarządza strukturą dashboard
  */
 
-// Ładowanie modułów - tylko jeśli pliki istnieją
+// Debug: sprawdź czy plik się wykonuje
+// echo "<!-- DEBUG: dashboard-modular.php loaded successfully -->";
+
+// Ładowanie modułów - TYMCZASOWO WYŁĄCZONE dla debugowania
+/*
 if (file_exists(__DIR__ . '/modules/personalization.php')) {
     require_once __DIR__ . '/modules/personalization.php';
 }
 if (file_exists(__DIR__ . '/modules/content.php')) {
     require_once __DIR__ . '/modules/content.php';
 }
+*/
 ?>
 
 <div id="client-dashboard" class="min-h-screen font-display" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
@@ -301,6 +306,8 @@ if (file_exists(__DIR__ . '/modules/content.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
+        // Renderuj sekcje - TYMCZASOWO WYŁĄCZONE dla debugowania
+        /*
         // Renderuj sekcje personalizacji - tylko jeśli funkcje istnieją
         if (function_exists('render_personalization_section')) {
             render_personalization_section();
@@ -322,6 +329,7 @@ if (file_exists(__DIR__ . '/modules/content.php')) {
         if (function_exists('render_posts_section')) {
             render_posts_section();
         }
+        */
         ?>
     </main>
 </div>
