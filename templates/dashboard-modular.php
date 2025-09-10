@@ -4,12 +4,21 @@
  * Ładuje wszystkie moduły i zarządza strukturą dashboard
  */
 
-// Debug: sprawdź czy plik się wykonuje
-// echo "<!-- DEBUG: dashboard-modular.php loaded successfully -->";
+// DEBUG: sprawdź czy plik się wykonuje
+echo '<div style="background:#ff6b6b;color:#fff;padding:10px;margin:10px;border-radius:5px;font-weight:bold;">';
+echo 'DEBUG: dashboard-modular.php loaded successfully!';
+echo '</div>';
 
 // Ładowanie modułów - włączanie modułu content i personalization
 if (file_exists(__DIR__ . '/modules/content.php')) {
     require_once __DIR__ . '/modules/content.php';
+    echo '<div style="background:#2ed573;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
+    echo 'DEBUG: content.php module loaded successfully!';
+    echo '</div>';
+} else {
+    echo '<div style="background:#ff3838;color:#fff;padding:10px;margin:10px;border-radius:5px;">';
+    echo 'ERROR: content.php module not found at: ' . __DIR__ . '/modules/content.php';
+    echo '</div>';
 }
 if (file_exists(__DIR__ . '/modules/personalization.php')) {
     require_once __DIR__ . '/modules/personalization.php';
