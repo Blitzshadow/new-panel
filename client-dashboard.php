@@ -82,13 +82,21 @@ if (function_exists('add_filter')) {
 }
 
 // REST API/AJAX endpointy do obsługi sekcji (zamówienia, produkty, wpisy, kupony, raporty, kontakt, zgłoszenia)
-require_once __DIR__ . '/inc/rest-endpoints.php';
+if (file_exists(__DIR__ . '/inc/rest-endpoints.php')) {
+    require_once __DIR__ . '/inc/rest-endpoints.php';
+}
 
 // Obsługa powiadomień systemowych
-require_once __DIR__ . '/inc/notifications.php';
+if (file_exists(__DIR__ . '/inc/notifications.php')) {
+    require_once __DIR__ . '/inc/notifications.php';
+}
 
 // Obsługa personalizacji dashboardu
-require_once __DIR__ . '/inc/widgets.php';
+if (file_exists(__DIR__ . '/inc/widgets.php')) {
+    require_once __DIR__ . '/inc/widgets.php';
+}
 
 // Bezpieczeństwo: nonce, walidacja, sanitizacja
-require_once __DIR__ . '/inc/security.php';
+if (file_exists(__DIR__ . '/inc/security.php')) {
+    require_once __DIR__ . '/inc/security.php';
+}

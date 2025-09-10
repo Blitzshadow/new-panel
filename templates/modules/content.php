@@ -7,7 +7,9 @@
 if (!defined('ABSPATH')) exit;
 
 // Ładowanie podmodułów content
-require_once __DIR__ . '/content/posts.php';
+if (file_exists(__DIR__ . '/content/posts.php')) {
+    require_once __DIR__ . '/content/posts.php';
+}
 
 /**
  * Funkcja renderująca sekcję content (placeholder)
