@@ -3,7 +3,7 @@
     <aside class="sidebar min-h-screen shadow-modern-lg">
         <nav class="sidebar-menu">
             <div class="sidebar-header">
-                <h2 class="text-gradient font-display">Panel Klienta</h2>
+                <h2 class="text-xl font-display font-bold text-gradient">Panel Klienta</h2>
             </div>
             <ul class="space-y-2">
                 <!-- Personalizacja -->
@@ -274,9 +274,9 @@
                     </div>
                     <div class="hidden md:block">
                         <?php if (function_exists('plugin_dir_url')): ?>
-                            <img src="<?php echo plugin_dir_url(__FILE__).'../assets/logo.svg'; ?>" class="h-16 w-16 opacity-80 hover:opacity-100 transition-opacity duration-300" alt="Logo">
+                            <img src="<?php echo plugin_dir_url(__FILE__).'../assets/logo.svg'; ?>" class="h-24 w-24 opacity-80 hover:opacity-100 transition-opacity duration-300" alt="Logo">
                         <?php else: ?>
-                            <img src="/wp-content/plugins/new-panel-master/assets/logo.svg" class="h-16 w-16 opacity-80 hover:opacity-100 transition-opacity duration-300" alt="Logo">
+                            <img src="/wp-content/plugins/new-panel-master/assets/logo.svg" class="h-24 w-24 opacity-80 hover:opacity-100 transition-opacity duration-300" alt="Logo">
                         <?php endif; ?>
                     </div>
                 </div>
@@ -356,7 +356,7 @@
 
                         <div class="space-y-6">
                             <div class="border-2 border-dashed border-gray-300 rounded-modern-lg p-8 text-center hover:border-gray-400 transition-colors">
-                                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-24 h-24 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
                                 <h4 class="text-lg font-semibold text-gray-100 mb-2">Przeciągnij pliki tutaj</h4>
