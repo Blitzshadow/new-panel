@@ -6,11 +6,89 @@
             Weblu Panel
         </div>
         <nav class="sidebar-menu flex-1">
-            <ul class="space-y-1">
+            <ul class="space-y-1 list-none p-0 m-0">
                 <li>
                     <a href="#dashboard" class="sidebar-link">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 8h2v-2H7v2zm0-4h2v-2H7v2zm0-8v2h2V5H7zm4 8h2v-2h-2v2zm0 4h2v-2h-2v2zm0-8v2h2V5h-2zm4 8h2v-2h-2v2zm0-4h2v-2h-2v2zm0-8v2h2V5h-2z"/></svg>
                         Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#posts" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 6h8M8 10h8M8 14h6"/></svg>
+                        Strony i Wpisy
+                    </a>
+                </li>
+                <li>
+                    <a href="#media" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        Media
+                    </a>
+                </li>
+                <li>
+                    <a href="#shop" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                        Sklep
+                    </a>
+                </li>
+                <li>
+                    <a href="#customers" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+                        Klienci i Użytkownicy
+                    </a>
+                </li>
+                <li>
+                    <a href="#forms" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
+                        Formularze i Kontakty
+                    </a>
+                </li>
+                <li>
+                    <a href="#notifications" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+                        Powiadomienia / System
+                    </a>
+                </li>
+                <li>
+                    <a href="#settings" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        Ustawienia strony
+                    </a>
+                </li>
+                <li>
+                    <a href="#personalization" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
+                        Personalizacja panelu
+                    </a>
+                </li>
+                <li>
+                    <a href="#reports" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 13l3 3 7-7"/></svg>
+                        Raporty i Analityka
+                    </a>
+                </li>
+                <li>
+                    <a href="#integrations" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
+                        Integracje i Dodatki
+                    </a>
+                </li>
+                <li>
+                    <a href="#profile" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+                        Profil użytkownika
+                    </a>
+                </li>
+                <li>
+                    <a href="#help" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        Pomoc / Support
+                    </a>
+                </li>
+                <li>
+                    <a href="#advanced" class="sidebar-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
+                        Zaawansowane
                     </a>
                 </li>
                 <li>
