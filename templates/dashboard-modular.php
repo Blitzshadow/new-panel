@@ -24,7 +24,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Personalizacja -->
                 <li class="sidebar-section">Personalizacja</li>
                 <li>
-                    <a href="#personalization" class="sidebar-link sidebar-toggle" data-toggle="submenu-personalization">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-personalization">
                         <svg class="w-4 h-4 flex-shrink-0" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128.75.75 0 01-1.5 0 4.5 4.5 0 018.4-2.409c-.26.201-.542.388-.832.58a1.5 1.5 0 01-1.78-.124z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 8.25a2.25 2.25 0 012.25 2.25c0 1.012-.442 1.915-1.125 2.52a.75.75 0 01-1.005-.933 3.75 3.75 0 00.627-2.087 3.75 3.75 0 00-3.75-3.75.75.75 0 01-.75-.75z"/>
@@ -42,7 +42,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Strony i Wpisy -->
                 <li class="sidebar-section">Strony i Wpisy</li>
                 <li>
-                    <a href="#posts" class="sidebar-link sidebar-toggle" data-toggle="submenu-posts">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-posts">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h7.5"/>
                         </svg>
@@ -57,7 +57,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                     </ul>
                 </li>
                 <li>
-                    <a href="#pages" class="sidebar-link sidebar-toggle" data-toggle="submenu-pages">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-pages">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12 3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
                         </svg>
@@ -71,7 +71,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                     </ul>
                 </li>
                 <li>
-                    <a href="#media" class="sidebar-link sidebar-toggle" data-toggle="submenu-media">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-media">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                         Media <span class="ml-auto">&#9662;</span>
                     </a>
@@ -86,7 +86,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Sklep -->
                 <li class="sidebar-section">Sklep</li>
                 <li>
-                    <a href="#orders" class="sidebar-link sidebar-toggle" data-toggle="submenu-orders">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-orders">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                         </svg>
@@ -100,7 +100,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                     </ul>
                 </li>
                 <li>
-                    <a href="#products" class="sidebar-link sidebar-toggle" data-toggle="submenu-products">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-products">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.5a2.25 2.25 0 01-2.25 2.25H6.75a2.25 2.25 0 01-2.25-2.25L3.875 7.5m6 2.25L9 7.5m0 0L7.5 9m1.5-1.5L12 9m-4.5 0L9 10.5m0-3L10.5 9m3 0l-1.5-1.5M12 9l1.5 1.5M12 9L9 10.5m3-3l1.5 1.5M15 7.5l-1.5 1.5M15 7.5l1.5 1.5"/>
                         </svg>
@@ -115,7 +115,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                     </ul>
                 </li>
                 <li>
-                    <a href="#coupons" class="sidebar-link sidebar-toggle" data-toggle="submenu-coupons">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-coupons">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7v10"/></svg>
                         Kupony / Promocje <span class="ml-auto">&#9662;</span>
                     </a>
@@ -130,7 +130,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Raporty -->
                 <li class="sidebar-section">Raporty</li>
                 <li>
-                    <a href="#reports" class="sidebar-link sidebar-toggle" data-toggle="submenu-reports">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-reports">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 13l3 3 7-7"/></svg>
                         Raporty i analityka <span class="ml-auto">&#9662;</span>
                     </a>
@@ -147,7 +147,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Klienci -->
                 <li class="sidebar-section">Klienci</li>
                 <li>
-                    <a href="#customers" class="sidebar-link sidebar-toggle" data-toggle="submenu-customers">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-customers">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                         Klienci i Użytkownicy <span class="ml-auto">&#9662;</span>
                     </a>
@@ -163,7 +163,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Formularze -->
                 <li class="sidebar-section">Formularze</li>
                 <li>
-                    <a href="#forms" class="sidebar-link sidebar-toggle" data-toggle="submenu-forms">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-forms">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Formularze i Kontakty <span class="ml-auto">&#9662;</span>
                     </a>
@@ -178,7 +178,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Ustawienia -->
                 <li class="sidebar-section">Ustawienia</li>
                 <li>
-                    <a href="#settings" class="sidebar-link sidebar-toggle" data-toggle="submenu-settings">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-settings">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                         Ustawienia strony <span class="ml-auto">&#9662;</span>
                     </a>
@@ -191,7 +191,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                     </ul>
                 </li>
                 <li>
-                    <a href="#integrations" class="sidebar-link sidebar-toggle" data-toggle="submenu-integrations">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-integrations">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Integracje i dodatki <span class="ml-auto">&#9662;</span>
                     </a>
@@ -206,7 +206,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Profil -->
                 <li class="sidebar-section">Profil</li>
                 <li>
-                    <a href="#profile" class="sidebar-link sidebar-toggle" data-toggle="submenu-profile">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-profile">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                         Profil użytkownika <span class="ml-auto">&#9662;</span>
                     </a>
@@ -221,7 +221,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Pomoc -->
                 <li class="sidebar-section">Pomoc / Support</li>
                 <li>
-                    <a href="#help" class="sidebar-link sidebar-toggle" data-toggle="submenu-help">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-help">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                         Dokumentacja / FAQ <span class="ml-auto">&#9662;</span>
                     </a>
@@ -235,7 +235,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
                 <!-- Zaawansowane -->
                 <li class="sidebar-section">Zaawansowane</li>
                 <li>
-                    <a href="#advanced" class="sidebar-link sidebar-toggle" data-toggle="submenu-advanced">
+                    <a href="#" class="sidebar-link sidebar-toggle" data-toggle="submenu-advanced">
                         <svg class="w-4 h-4" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8v8H8z"/></svg>
                         Zaawansowane <span class="ml-auto">&#9662;</span>
                     </a>
@@ -261,7 +261,7 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
     <!-- Główna sekcja -->
     <main class="dashboard-content space-y-4 overflow-auto">
         <!-- Sekcje powitalne -->
-        <section id="welcome" class="animate-fadeIn">
+    <section id="welcome" class="animate-fadeIn active">
             <!-- Widżet powitalny -->
             <div class="card hover-lift rounded-modern-lg shadow-modern">
                 <div class="flex items-center justify-between">
