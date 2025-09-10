@@ -4,8 +4,10 @@
  * Zawiera wszystkie podmoduły zarządzania treścią
  */
 
+if (!defined('ABSPATH')) exit;
+
 // Ładowanie podmodułów content
-require_once __DIR__ . '/posts.php';
+require_once __DIR__ . '/content/posts.php';
 
 /**
  * Funkcja renderująca sekcję content (placeholder)

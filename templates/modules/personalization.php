@@ -4,6 +4,8 @@
  * Zawiera wszystkie podmoduły personalizacji dashboard
  */
 
+if (!defined('ABSPATH')) exit;
+
 // Ładowanie podmodułów personalizacji
 require_once __DIR__ . '/branding.php';
 require_once __DIR__ . '/dashboard-widgets.php';

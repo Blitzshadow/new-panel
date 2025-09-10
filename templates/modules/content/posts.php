@@ -3,6 +3,8 @@
  * Podmoduł Posts - Zarządzanie wpisami
  */
 
+if (!defined('ABSPATH')) exit;
+
 /**
  * Funkcja renderująca sekcję posts
  */

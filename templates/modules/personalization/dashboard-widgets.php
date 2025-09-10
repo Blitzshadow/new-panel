@@ -3,6 +3,8 @@
  * Podmoduł Dashboard Widgets - Zarządzanie widżetami
  */
 
+if (!defined('ABSPATH')) exit;
+
 /**
  * Funkcja renderująca sekcję dashboard widgets
  */

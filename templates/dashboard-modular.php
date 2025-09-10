@@ -7,15 +7,13 @@
 // Debug: sprawdź czy plik się wykonuje
 // echo "<!-- DEBUG: dashboard-modular.php loaded successfully -->";
 
-// Ładowanie modułów - TYMCZASOWO WYŁĄCZONE (problemy z synchronizacją na serwerze)
-/*
+// Ładowanie modułów - włączanie modułu content i personalization
 if (file_exists(__DIR__ . '/modules/content.php')) {
     require_once __DIR__ . '/modules/content.php';
 }
 if (file_exists(__DIR__ . '/modules/personalization.php')) {
     require_once __DIR__ . '/modules/personalization.php';
 }
-*/
 ?>
 
 <div id="client-dashboard" class="min-h-screen font-display" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);">
@@ -271,8 +269,11 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
             <div class="card hover-lift rounded-modern-lg shadow-modern">
                 <div class="flex items-center justify-between">
                     <div class="flex-1">
-                        <?php if (function_exists('wp_get_current_user')): ?>
-                            <h2 class="text-3xl font-display font-bold mb-3 text-gradient">Witaj, <?php echo wp_get_current_user()->display_name; ?>!</h2>
+                        <?php if (function_exists('wp_get_current_user')):
+                            $current_user = wp_get_current_user();
+                            if ($current_user && isset($current_user->display_name)):
+                                $display_name = function_exists('esc_html') ? esc_html($current_user->display_name) : $current_user->display_name; ?>
+                            <h2 class="text-3xl font-display font-bold mb-3 text-gradient">Witaj, <?php echo $display_name; ?>!</h2>
                             <p class="text-gray-300 text-lg leading-relaxed">Miło Cię widzieć w panelu klienta. Zarządzaj swoją stroną i sklepem w jednym miejscu.</p>
                         <?php else: ?>
                             <h2 class="text-3xl font-display font-bold mb-3 text-gradient">Witaj w panelu klienta!</h2>
@@ -306,14 +307,12 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
-        // Renderuj sekcje - TYMCZASOWO WYŁĄCZONE (problemy z synchronizacją)
-        /*
         // Renderuj sekcje - włączanie modułu content
         if (function_exists('render_posts_section')) {
             render_posts_section();
         }
 
-        // Renderuj sekcje personalizacji - nadal wyłączone
+        // Renderuj sekcje personalizacji - włączanie
         if (function_exists('render_personalization_section')) {
             render_personalization_section();
         }
@@ -329,7 +328,6 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
         if (function_exists('render_shortcuts_section')) {
             render_shortcuts_section();
         }
-        */
         ?>
     </main>
 </div>

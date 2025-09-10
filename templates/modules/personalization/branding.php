@@ -3,6 +3,8 @@
  * Podmoduł Branding - Personalizacja marki
  */
 
+if (!defined('ABSPATH')) exit;
+
 /**
  * Funkcja renderująca sekcję branding
  */

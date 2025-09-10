@@ -3,6 +3,8 @@
  * Podmoduł Dashboard Layout - Edytor układu dashboard
  */
 
+if (!defined('ABSPATH')) exit;
+
 /**
  * Funkcja renderująca sekcję dashboard layout
  */

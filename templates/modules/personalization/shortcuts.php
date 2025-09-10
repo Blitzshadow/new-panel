@@ -3,6 +3,8 @@
  * Podmoduł Shortcuts - Skróty i linki
  */
 
+if (!defined('ABSPATH')) exit;
+
 /**
  * Funkcja renderująca sekcję shortcuts
  */
