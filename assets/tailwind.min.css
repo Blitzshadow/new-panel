@@ -1,6 +1,12 @@
 .sidebar-section { margin-top: 2rem; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 700; color: #888; letter-spacing: 0.04em; padding-left: 1.5rem; }
 .sidebar-submenu { list-style: none; margin: 0; padding: 0 0 0 2.5rem; }
 .sidebar-submenu .sidebar-link { font-size: 0.98rem; padding-left: 0.5rem; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+li { margin: 0; padding: 0; }
+/* Widgety, powiadomienia, sekcje */
+.widget ul, .widget ol, #notifications ul, #notifications ol { list-style: none; margin: 0; padding: 0; }
+/* Sidebar submenu wzmocnienie */
+.sidebar-submenu { list-style: none !important; margin: 0; padding: 0 0 0 2.5rem; }
 /* TailwindCSS CDN build - minimal dark theme for dashboard */
 
 body, html { background: #f7f8fa; color: #222; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; }
