@@ -17,6 +17,7 @@ function client_dashboard_enqueue_assets() {
 
 
 // Automatyczne tworzenie strony "Panel Klienta" przy aktywacji pluginu
+
 register_activation_hook(__FILE__, 'client_dashboard_create_page');
 function client_dashboard_create_page() {
     $panel_page = array(
@@ -26,10 +27,16 @@ function client_dashboard_create_page() {
         'post_status'   => 'publish',
         'post_type'     => 'page',
     );
-    // Sprawdź czy strona już istnieje
     $existing = get_page_by_path('panel');
     if (!$existing) {
-        wp_insert_post($panel_page);
+        $page_id = wp_insert_post($panel_page);
+        if ($page_id) {
+            // Ustaw szablon strony na nasz customowy
+            update_post_meta($page_id, '_wp_page_template', 'templates/page-client-dashboard.php');
+        }
+    } else {
+        // Jeśli strona istnieje, wymuś nasz szablon
+        update_post_meta($existing->ID, '_wp_page_template', 'templates/page-client-dashboard.php');
     }
 }
 
