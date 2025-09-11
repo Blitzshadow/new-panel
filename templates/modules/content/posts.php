@@ -206,73 +206,8 @@ function render_posts_section() {
                             </tr>
                         </thead>
                         <tbody id="posts-table-body">
-                            <!-- Demo post for visualization -->
-                            <tr class="border-b border-gray-700 hover:bg-gray-700 transition-colors">
-                                <td class="px-4 py-3">
-                                    <input type="checkbox" name="post[]" value="1" class="rounded border-gray-600">
-                                </td>
-                                <td class="px-4 py-3 font-medium text-white">
-                                    <a href="post.php?post=1&action=edit" class="hover:text-blue-400 transition-colors">
-                                        Witamy w nowym panelu WordPress!
-                                    </a>
-                                </td>
-                                <td class="px-4 py-3 text-gray-300">
-                                    Administrator
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex flex-wrap gap-1">
-                                        <span class="badge badge-info text-xs">Ogólne</span>
-                                        <span class="badge badge-success text-xs">Aktualności</span>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex flex-wrap gap-1">
-                                        <span class="badge badge-secondary text-xs">wordpress</span>
-                                        <span class="badge badge-secondary text-xs">panel</span>
-                                        <span class="badge badge-secondary text-xs">demo</span>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3 text-center">
-                                    <span class="inline-flex items-center gap-1">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                                        </svg>
-                                        <span class="text-gray-300">3</span>
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3 text-gray-300">
-                                    <div class="flex flex-col">
-                                        <span class="text-sm">2025-09-10</span>
-                                        <span class="text-xs text-gray-500">14:30</span>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <span class="badge badge-success">Opublikowany</span>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex gap-2">
-                                        <a href="post.php?post=1&action=edit" class="text-blue-400 hover:text-blue-300 transition-colors" title="Edytuj">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                            </svg>
-                                        </a>
-                                        <a href="?p=1" target="_blank" class="text-green-400 hover:text-green-300 transition-colors" title="Podgląd">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                            </svg>
-                                        </a>
-                                        <a href="#" class="delete-post text-red-400 hover:text-red-300 transition-colors" data-post-id="1" title="Usuń">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Empty state message -->
-                            <tr id="empty-state-row" class="hidden">
+                            <!-- Empty state: no data loaded yet -->
+                            <tr id="empty-state-row">
                                 <td colspan="9" class="px-4 py-8 text-center text-gray-400">
                                     <div class="flex flex-col items-center gap-4">
                                         <svg class="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -280,7 +215,7 @@ function render_posts_section() {
                                         </svg>
                                         <div>
                                             <p class="text-lg font-medium">Brak wpisów do wyświetlenia</p>
-                                            <p class="text-sm">Wpisy zostaną wyświetlone po dodaniu logiki ładowania danych.</p>
+                                            <p class="text-sm">Sekcja jest czysta — dodaj logikę ładowania danych w module posts.</p>
                                         </div>
                                     </div>
                                 </td>
@@ -342,62 +277,45 @@ function render_posts_section() {
 <!-- JavaScript for UI interactions (structure only, no data loading yet) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Select all posts checkbox
+    // Defensive queries - elements may not exist in other templates
     const selectAllCheckbox = document.getElementById('select-all-posts');
     const postCheckboxes = document.querySelectorAll('input[name="post[]"]');
     const bulkActionsBtn = document.getElementById('bulk-actions-btn');
     const bulkActionSelect = document.getElementById('bulk-action-select');
     const applyBulkActionBtn = document.getElementById('apply-bulk-action');
 
-    // Handle select all functionality
-    selectAllCheckbox.addEventListener('change', function() {
-        const isChecked = this.checked;
-        postCheckboxes.forEach(checkbox => {
-            checkbox.checked = isChecked;
-        });
-        updateBulkActionsState();
-    });
-
-    // Handle individual checkbox changes
-    postCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateBulkActionsState);
-    });
-
     function updateBulkActionsState() {
         const checkedBoxes = document.querySelectorAll('input[name="post[]"]:checked');
         const hasSelection = checkedBoxes.length > 0;
+        if (bulkActionsBtn) bulkActionsBtn.disabled = !hasSelection;
+        if (bulkActionSelect) bulkActionSelect.disabled = !hasSelection;
+        if (applyBulkActionBtn) applyBulkActionBtn.disabled = !hasSelection;
 
-        bulkActionsBtn.disabled = !hasSelection;
-        bulkActionSelect.disabled = !hasSelection;
-        applyBulkActionBtn.disabled = !hasSelection;
-
-        // Update select all checkbox state
-        const totalCheckboxes = postCheckboxes.length;
-        const checkedCount = checkedBoxes.length;
-
-        if (checkedCount === 0) {
-            selectAllCheckbox.checked = false;
-            selectAllCheckbox.indeterminate = false;
-        } else if (checkedCount === totalCheckboxes) {
-            selectAllCheckbox.checked = true;
-            selectAllCheckbox.indeterminate = false;
-        } else {
-            selectAllCheckbox.checked = false;
-            selectAllCheckbox.indeterminate = true;
+        if (selectAllCheckbox) {
+            const totalCheckboxes = postCheckboxes.length;
+            const checkedCount = checkedBoxes.length;
+            selectAllCheckbox.checked = checkedCount === totalCheckboxes && totalCheckboxes > 0;
+            selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCheckboxes;
         }
     }
 
-    // Filter button click handler (placeholder)
-    document.getElementById('filter-btn').addEventListener('click', function() {
-        console.log('Filter button clicked - logic will be added later');
-        // TODO: Implement filtering logic
-    });
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            postCheckboxes.forEach(checkbox => checkbox.checked = isChecked);
+            updateBulkActionsState();
+        });
+    }
 
-    // Clear filters button click handler (placeholder)
-    document.getElementById('clear-filters-btn').addEventListener('click', function() {
-        console.log('Clear filters button clicked - logic will be added later');
-        // TODO: Implement clear filters logic
-    });
+    if (postCheckboxes.length) {
+        postCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateBulkActionsState));
+    }
+
+    const filterBtn = document.getElementById('filter-btn');
+    if (filterBtn) filterBtn.addEventListener('click', function() { /* placeholder */ });
+
+    const clearBtn = document.getElementById('clear-filters-btn');
+    if (clearBtn) clearBtn.addEventListener('click', function() { /* placeholder */ });
 
     // Bulk action apply button click handler (placeholder)
     applyBulkActionBtn.addEventListener('click', function() {

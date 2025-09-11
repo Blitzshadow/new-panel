@@ -90,27 +90,45 @@ if (function_exists('add_filter')) {
     });
 }
 
-// REST API/AJAX endpointy do obsługi sekcji (zamówienia, produkty, wpisy, kupony, raporty, kontakt, zgłoszenia)
-if (file_exists(__DIR__ . '/inc/rest-endpoints.php')) {
-    require_once __DIR__ . '/inc/rest-endpoints.php';
+// Start session if possible (optional)
+if (session_status() == PHP_SESSION_NONE && !headers_sent()) {
+    @session_start();
 }
 
-// WP AJAX handlers for posts actions
-if (file_exists(__DIR__ . '/inc/ajax-handlers.php')) {
-    require_once __DIR__ . '/inc/ajax-handlers.php';
+// Load core bootstrap
+if (file_exists(__DIR__ . '/inc/core/bootstrap.php')) {
+    require_once __DIR__ . '/inc/core/bootstrap.php';
 }
 
-// Obsługa powiadomień systemowych
-if (file_exists(__DIR__ . '/inc/notifications.php')) {
-    require_once __DIR__ . '/inc/notifications.php';
-}
+// Load legacy includes for compatibility (check modular locations first)
+$legacy_map = [
+    'inc/rest-endpoints.php' => [
+        __DIR__ . '/inc/core/rest-endpoints.php',
+        __DIR__ . '/inc/rest-endpoints.php'
+    ],
+    'inc/ajax-handlers.php' => [
+        __DIR__ . '/inc/core/ajax-handlers.php',
+        __DIR__ . '/inc/ajax-handlers.php'
+    ],
+    'inc/notifications.php' => [
+        __DIR__ . '/inc/notifications/notifications.php',
+        __DIR__ . '/inc/notifications.php'
+    ],
+    'inc/widgets.php' => [
+        __DIR__ . '/inc/core/widgets.php',
+        __DIR__ . '/inc/widgets.php'
+    ],
+    'inc/security.php' => [
+        __DIR__ . '/inc/utils/security.php',
+        __DIR__ . '/inc/security.php'
+    ]
+];
 
-// Obsługa personalizacji dashboardu
-if (file_exists(__DIR__ . '/inc/widgets.php')) {
-    require_once __DIR__ . '/inc/widgets.php';
-}
-
-// Bezpieczeństwo: nonce, walidacja, sanitizacja
-if (file_exists(__DIR__ . '/inc/security.php')) {
-    require_once __DIR__ . '/inc/security.php';
+foreach ($legacy_map as $key => $paths) {
+    foreach ($paths as $p) {
+        if (file_exists($p)) {
+            require_once $p;
+            break;
+        }
+    }
 }
