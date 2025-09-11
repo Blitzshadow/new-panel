@@ -18,7 +18,8 @@ class NP_Posts_Controller {
 
     public function get_posts($request) {
         $paged = max(1, intval($request->get_param('paged')));
-        $per_page = 10;
+        $per_page = max(1, min(50, intval($request->get_param('per_page') ?: 10)));
+        $search = $request->get_param('s');
         $args = [
             'post_type' => 'post',
             'post_status' => ['publish','draft'],
@@ -26,6 +27,9 @@ class NP_Posts_Controller {
             'paged' => $paged,
             'author' => get_current_user_id()
         ];
+        if (!empty($search)) {
+            $args['s'] = sanitize_text_field($search);
+        }
         $q = new WP_Query($args);
         $items = [];
         foreach ($q->posts as $p) {
