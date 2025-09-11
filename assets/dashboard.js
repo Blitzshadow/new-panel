@@ -58,14 +58,41 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(ajaxUrl, { method: 'POST', credentials: 'same-origin', body: fd })
             .then(function(res){ return res.json(); })
             .then(function(data){
+                console.debug('np_load_module response', data);
                 if (!data || !data.success) {
                     container.innerHTML = '<div class="np-error">Nie udało się załadować modułu.</div>';
                     return;
                 }
-                container.innerHTML = data.data.html || '';
+                var html = data.data.html || '';
+
+                // If server returned a root element with the expected id (e.g. <section id="posts">), use it.
+                // Otherwise wrap the HTML in a new <section id="moduleId"> so showSection can display it.
+                var temp = document.createElement('div');
+                temp.innerHTML = html;
+                var found = temp.querySelector('#' + moduleId);
+                // Clear previous modules root children before inserting
+                container.innerHTML = '';
+                if (found) {
+                    // Move the element from temp into container
+                    container.appendChild(found);
+                    // If the element was not a <section>, ensure it is visible
+                    var sec = container.querySelector('#' + moduleId);
+                    if (sec) sec.classList.add('active');
+                } else {
+                    var secWrap = document.createElement('section');
+                    secWrap.id = moduleId;
+                    secWrap.className = 'animate-fadeIn active';
+                    secWrap.innerHTML = html;
+                    container.appendChild(secWrap);
+                }
+
+                // Ensure only this section is active
+                document.querySelectorAll('main section').forEach(s => { if (s.id !== moduleId) s.classList.remove('active'); });
+
                 // Optional: run any on-load init if present
-                if (window.np_on_module_load) try { window.np_on_module_load(moduleId, container); } catch(e){}
-            }).catch(function(){
+                if (window.np_on_module_load) try { window.np_on_module_load(moduleId, container); } catch(e){ console.error(e); }
+            }).catch(function(err){
+                console.error('np_load_module fetch error', err);
                 container.innerHTML = '<div class="np-error">Błąd sieci podczas ładowania modułu.</div>';
             });
     }
