@@ -15,5 +15,12 @@ if (!defined('ABSPATH')) exit;
 	<?php include function_exists('plugin_dir_path') ? plugin_dir_path(__FILE__).'dashboard-modular.php' : __DIR__.'/dashboard-modular.php'; ?>
 	<script src="<?php echo function_exists('plugin_dir_url') ? plugin_dir_url(__FILE__).'../assets/alpine.min.js' : '/wp-content/plugins/new-panel-master/assets/alpine.min.js'; ?>"></script>
 	<script src="<?php echo function_exists('plugin_dir_url') ? plugin_dir_url(__FILE__).'../assets/dashboard.js' : '/wp-content/plugins/new-panel-master/assets/dashboard.js'; ?>"></script>
+	<?php if (function_exists('admin_url') && function_exists('wp_create_nonce')): ?>
+	<script>
+		window.np_vars = window.np_vars || {};
+		window.np_vars.ajax_url = window.np_vars.ajax_url || '<?php echo esc_js(admin_url("admin-ajax.php")); ?>';
+		window.np_vars.nonce = window.np_vars.nonce || '<?php echo esc_js(wp_create_nonce("np_nonce")); ?>';
+	</script>
+	<?php endif; ?>
 </body>
 </html>
