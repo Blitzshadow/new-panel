@@ -171,12 +171,12 @@ add_action('wp_ajax_np_load_module', function(){
         wp_send_json_error('Brak modułu', 400);
     }
 
-    // Allowed modules mapping to template files under templates/modules/content
+    // Allowed modules mapping to template paths (relative to templates/, without .php)
     $allowed = [
-        'posts' => 'templates/posts/list.php',
-        'add-post' => 'templates/modules/content/add-post.php',
-        'edit-post' => 'templates/modules/content/edit-post.php',
-        'pages-list' => 'templates/modules/content/pages-list.php'
+        'posts' => 'posts/list',
+        'add-post' => 'modules/content/add-post',
+        'edit-post' => 'modules/content/edit-post',
+        'pages-list' => 'modules/content/pages-list'
     ];
 
     if (!array_key_exists($module, $allowed)) {
@@ -190,13 +190,22 @@ add_action('wp_ajax_np_load_module', function(){
         }
     }
 
-    $path = ABSPATH ? ABSPATH : __DIR__ . '/..';
-    $file = trailingslashit(dirname(__FILE__) . '/..') . $allowed[$module];
+    // Optional nonce check (if provided)
+    if (isset($_POST['security']) && function_exists('check_ajax_referer')) {
+        // will exit/send error if invalid
+        if (!check_ajax_referer('np_nonce', 'security', false)) {
+            wp_send_json_error('Nieprawidłowy nonce', 403);
+        }
+    }
+
+    $template_path = $allowed[$module];
+    $plugin_root = plugin_dir_path(__DIR__ . '/..');
+    $file = $plugin_root . 'templates/' . $template_path . '.php';
 
     ob_start();
     if (function_exists('np_render_template')) {
-        // use helper to render safely
-        echo np_render_template($allowed[$module]);
+        // np_render_template expects path without .php and relative to templates
+        echo np_render_template($template_path);
     } else if (file_exists($file)) {
         include $file;
     } else {
