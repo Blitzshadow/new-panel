@@ -1,18 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Funkcja do pokazywania sekcji
+    // Funkcja do pokazywania sekcji; jeśli sekcji nie ma w DOM, spróbuj załadować moduł dynamicznie
     function showSection(sectionId) {
-        // Usuń klasę active ze wszystkich sekcji
-        document.querySelectorAll('main section').forEach(sec => {
-            sec.classList.remove('active');
-        });
-
+        // Usuń kl. active ze wszystkich sekcji
+        document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
         // Usuń active z wszystkich sidebar linków
         document.querySelectorAll('aside nav a.sidebar-link').forEach(a => a.classList.remove('active'));
 
-        // Pokaż wybraną sekcję przez dodanie klasy active
         const targetSection = document.getElementById(sectionId);
+        const modulesRoot = document.getElementById('modules-root');
+
+        // Jeśli istnieje sekcja w DOM, pokaż ją
         if (targetSection) {
             targetSection.classList.add('active');
+        } else if (modulesRoot) {
+            // Jeśli nie ma sekcji, załaduj moduł dynamicznie do modules-root
+            loadModule(sectionId, modulesRoot);
         }
 
         // Oznacz odpowiadający link jako aktywny (jeśli istnieje)
@@ -37,6 +39,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Ładuje moduł po jego identyfikatorze (bez znaku #) do podanego kontenera
+    function loadModule(moduleId, container) {
+        if (!moduleId || !container) return;
+        // Pokaż loader
+        container.innerHTML = '<div class="np-loading">Ładowanie modułu...</div>';
+
+        // Preferowane: użyj localized np_vars from PHP
+        var ajaxUrl = (window.np_vars && np_vars.ajax_url) ? np_vars.ajax_url : '/wp-admin/admin-ajax.php';
+        var nonce = (window.np_vars && np_vars.nonce) ? np_vars.nonce : '';
+
+        var fd = new FormData();
+        fd.append('action', 'np_load_module');
+        fd.append('module', moduleId);
+        if (nonce) fd.append('security', nonce);
+
+        fetch(ajaxUrl, { method: 'POST', credentials: 'same-origin', body: fd })
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+                if (!data || !data.success) {
+                    container.innerHTML = '<div class="np-error">Nie udało się załadować modułu.</div>';
+                    return;
+                }
+                container.innerHTML = data.data.html || '';
+                // Optional: run any on-load init if present
+                if (window.np_on_module_load) try { window.np_on_module_load(moduleId, container); } catch(e){}
+            }).catch(function(){
+                container.innerHTML = '<div class="np-error">Błąd sieci podczas ładowania modułu.</div>';
+            });
+    }
 
     // Sidebar: rozwijanie/zamykanie podmenu
     document.querySelectorAll('.sidebar-toggle').forEach(toggle => {

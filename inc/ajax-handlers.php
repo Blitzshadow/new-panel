@@ -160,3 +160,49 @@ function cd_ajax_quick_post() {
             break;
     }
 }
+
+// Dynamic module loader for the modular dashboard
+add_action('wp_ajax_np_load_module', function(){
+    if (!defined('ABSPATH')) exit;
+    // simple permission check: require edit_posts for posts-related modules, otherwise allow logged-in
+    if (isset($_POST['module']) && is_string($_POST['module'])) {
+        $module = preg_replace('/[^a-z0-9\-_]/i','', $_POST['module']);
+    } else {
+        wp_send_json_error('Brak modułu', 400);
+    }
+
+    // Allowed modules mapping to template files under templates/modules/content
+    $allowed = [
+        'posts' => 'templates/posts/list.php',
+        'add-post' => 'templates/modules/content/add-post.php',
+        'edit-post' => 'templates/modules/content/edit-post.php',
+        'pages-list' => 'templates/modules/content/pages-list.php'
+    ];
+
+    if (!array_key_exists($module, $allowed)) {
+        wp_send_json_error('Nieznany moduł', 404);
+    }
+
+    // permission for posts
+    if (strpos($module, 'post') !== false || $module === 'posts') {
+        if (function_exists('current_user_can') && !current_user_can('edit_posts')) {
+            wp_send_json_error('Brak uprawnień', 403);
+        }
+    }
+
+    $path = ABSPATH ? ABSPATH : __DIR__ . '/..';
+    $file = trailingslashit(dirname(__FILE__) . '/..') . $allowed[$module];
+
+    ob_start();
+    if (function_exists('np_render_template')) {
+        // use helper to render safely
+        echo np_render_template($allowed[$module]);
+    } else if (file_exists($file)) {
+        include $file;
+    } else {
+        ob_end_clean();
+        wp_send_json_error('Plik modułu nie znaleziony', 500);
+    }
+    $html = ob_get_clean();
+    wp_send_json_success(['html' => $html]);
+});
