@@ -305,27 +305,12 @@ if (file_exists(__DIR__ . '/modules/personalization.php')) {
 
         <!-- Ładowanie modułów -->
         <?php
-        // Render posts section
-        if (function_exists('render_posts_section')) {
-            render_posts_section();
-        }
-
-        // Renderuj sekcje personalizacji - włączanie
-        if (function_exists('render_personalization_section')) {
-            render_personalization_section();
-        }
-        if (function_exists('render_branding_section')) {
-            render_branding_section();
-        }
-        if (function_exists('render_dashboard_widgets_section')) {
-            render_dashboard_widgets_section();
-        }
-        if (function_exists('render_dashboard_layout_section')) {
-            render_dashboard_layout_section();
-        }
-        if (function_exists('render_shortcuts_section')) {
-            render_shortcuts_section();
-        }
+    // Modules are loaded but not rendered automatically to keep the dashboard clean on first load.
+    // Modules should expose render_...() functions and be rendered on-demand (JS or explicit call).
+    // Example JS may call a REST endpoint or toggle sections when user selects a menu item.
+        
+    // Placeholder container for dynamic module content if needed:
+    echo '<div id="modules-root"></div>';
         ?>
     </main>
 </div>
